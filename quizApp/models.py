@@ -163,6 +163,9 @@ class Participant(models.Model):
       "score": self.score,
     }
 
+  def __str__(self):
+    return F"{self.user.username} for quiz: {self.quiz.title} by {self.quiz.creator.username}"
+
 
 class ParticipantAnswer(models.Model):
   participant = models.ForeignKey(Participant, on_delete=models.CASCADE, related_name="answers")

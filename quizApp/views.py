@@ -14,6 +14,7 @@ from .models import User, Quiz, Question, Topic, Participant, ParticipantAnswer
 import json
 from random import shuffle
 from .utils import grading
+from datetime import datetime
 
 
 
@@ -160,6 +161,10 @@ def answers(request, quiz_id, quiz_slug):
   # questions_for_nav = {number of a question: question.id}
   
   if request.method == "POST":
+
+    # save the finished date
+    participant.time_finished = datetime.now()
+    participant.save()
 
     # delete pre-existing records
     ParticipantAnswer.objects.filter(participant = participant).delete()
