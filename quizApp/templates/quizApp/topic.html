@@ -1,0 +1,77 @@
+{% extends 'quizApp/layout.html' %}
+
+
+{% block body %}
+
+<div class="topic-network-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-7 col-6">
+        <div class="main-banner-content">
+          <h1>Calculus 1</h1>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-5 col-6 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <form>
+            <div class="input-group">
+              <input type="search" class="form-control form-control-sm" placeholder="Search Topic" aria-label="Search Topic" aria-describedby="button-addon2">
+              <button class="btn btn-info" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="topic-topic mt-4 mb-4 text-danger">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-1 col-md-1"></div>
+      <div class="col-lg-10 col-md-10">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
+              <div class="card topic-topic-card">
+                <div class="topic-topic-title">
+                  <h3 class="d-flex justify-content-center align-items-center h-100">Introduction to Derivatives and Integrals</h3>
+                </div>
+                <a class="card-text topic-card-text mt-1">Calculus 1</a>
+                <a class="card-text topic-card-text">Gregorino Al Josan</a>
+                <h4 class="card-text text-success mt-1">78</h4>
+                <div class="row topic-view-topic-btn">
+                  <a href="" class="btn btn-sm btn-danger">Start</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
+              <div class="card topic-topic-card">
+                <div class="topic-topic-title">
+                  <h3 class="d-flex justify-content-center align-items-center h-100">Introduction to Limits</h3>
+                </div>
+                <a class="card-text topic-card-text mt-1">Calculus 1</a>
+                <a class="card-text topic-card-text">Gregorino Al Josan</a>
+                <h4 class="card-text text-danger mt-1">62</h4>
+                <div class="row topic-view-topic-btn">
+                  <a href="" class="btn btn-sm btn-danger">Start</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1 col-md-1"></div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

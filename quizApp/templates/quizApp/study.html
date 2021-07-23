@@ -1,0 +1,99 @@
+{% extends 'quizApp/layout.html' %}
+
+{% block body %}
+
+
+<div class="study-network-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-2 col-md-2"></div>
+      <div class="col-lg-8 col-md-8">
+        <div class="container">
+          <div class="row">
+            <h1>Choose Your Topic</h1>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+              <form>
+                <div class="input-group mb-4 mt-2 w-100">
+                  <input type="search" class="form-control form-control-sm" placeholder="Search Topic" aria-label="Search Topic" aria-describedby="button-addon2">
+                  <button class="btn btn-info" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2"></div>
+    </div>
+  </div>
+</div>
+
+<section class="study-topic mt-4 mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-1 col-md-1"></div>
+      <div class="col-lg-10 col-md-10">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
+              <div class="card study-topic-card">
+                <div class="text-danger h-100">
+                  <h2 class="study-topic-title d-flex justify-content-center align-items-center p-3">Discrete Mathematics</h2>
+                </div>
+                <div class="row study-view-topic-btn">
+                  <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
+              <div class="card study-topic-card">
+                <div class="text-danger h-100">
+                  <h2 class="study-topic-title d-flex justify-content-center align-items-center p-3">Calculus 1</h2>
+                </div>
+                <div class="row study-view-topic-btn">
+                  <a href="/study/3/calculus-1" class="btn btn-sm btn-primary">View Topic</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
+              <div class="card study-topic-card">
+                <div class="text-danger h-100">
+                  <h2 class="study-topic-title d-flex justify-content-center align-items-center p-3">Real Analysis 2</h2>
+                </div>
+                <div class="row study-view-topic-btn">
+                  <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
+              <div class="card study-topic-card">
+                <div class="text-danger h-100">
+                  <h2 class="study-topic-title d-flex justify-content-center align-items-center p-3">Mathematical Statistics 1</h2>
+                </div>
+                <div class="row study-view-topic-btn">
+                  <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1 col-md-1"></div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

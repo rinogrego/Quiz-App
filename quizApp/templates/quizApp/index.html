@@ -1,0 +1,205 @@
+{% extends "quizApp/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+
+<div class="body">
+
+  <div class="index-network-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-8">
+          <div class="main-banner-content">
+            <h1>Welcome to Quiz App</h1>
+            <p>Take quizzes made by the smartest people, or make your own quiz and test your friends!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 d-flex align-items-center justify-content-center">
+          <div class="row">
+            <a href="{% url 'study' %}" class="btn btn-primary btn-lg">Quiz Now!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="index-topic">
+    <div class="container">
+
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-6 pt-3">
+          <div id="what-we-cover">
+            <h2>What We Cover</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        
+        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
+          <div class="card topic-card">
+            <div class="card-body">
+              <h3 class="card-title">Topic Title</h3>
+              <a class="card-text index-card-text"><strong>Total Quizzes: 21</strong></a> <br>
+              <a class="card-level-college">College</a> <br>
+              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
+              <div class="row justify-content-center">
+                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
+          <div class="card topic-card">
+            <div class="card-body">
+              <h3 class="card-title">Topic Title</h3>
+              <a class="card-text index-card-text"><strong>Total Quizzes: 3</strong></a> <br>
+              <a class="card-level-elementary">Elementary</a> <br>
+              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
+              <div class="row justify-content-center">
+                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
+          <div class="card topic-card">
+            <div class="card-body">
+              <h3 class="card-title">Topic Title</h3>
+              <a class="card-text index-card-text"><strong>Total Quizzes: 9</strong></a> <br>
+              <a class="card-level-junior">Junior School</a> <br>
+              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
+              <div class="row justify-content-center">
+                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
+          <div class="card topic-card">
+            <div class="card-body">
+              <h3 class="card-title">Topic Title</h3>
+              <a class="card-text index-card-text"><strong>Total Quizzes: 15</strong></a> <br>
+              <a class="card-level-high">High School</a> <br>
+              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
+              <div class="row justify-content-center">
+                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+        
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-6 mt-4 mb-4">
+          <div id="what-we-cover">
+            <a href="#" class="btn btn-sm btn-primary">See More</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="contributor bg-secondary">
+    <div class="container">
+
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-6 pt-3">
+          <div id="our-contributors">
+            <h2>Our Contributors</h2>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        
+        <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
+          <div class="card topic-card">
+            <div class="card-body">
+              <div class="row card-profile-photo">
+                IMG
+              </div>
+              <div class="row card-profile-detail p-2">
+                <a><strong>Name</strong></a> <br>
+                <a>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, velit?</a> <br>
+              </div>
+              <div class="row justify-content-center">
+                <a href="#" class="btn btn-sm btn-primary">View Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
+          <div class="card topic-card">
+            <div class="card-body">
+              <div class="row card-profile-photo">
+                IMG
+              </div>
+              <div class="row card-profile-detail p-2">
+                <a><strong>Name</strong></a> <br>
+                <a>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, velit?</a> <br>
+              </div>
+              <div class="row justify-content-center">
+                <a href="#" class="btn btn-sm btn-primary">View Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
+          <div class="card topic-card">
+            <div class="card-body">
+              <div class="row card-profile-photo">
+                IMG
+              </div>
+              <div class="row card-profile-detail p-2">
+                <a><strong>Name</strong></a> <br>
+                <a>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, velit?</a> <br>
+              </div>
+              <div class="row justify-content-center">
+                <a href="#" class="btn btn-sm btn-primary">View Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+
+        
+      </div>
+
+
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-6 mt-3 mb-3">
+          <div id="what-we-cover">
+            <a href="#" class="btn btn-sm btn-primary">See More</a>
+          </div>
+        </div>
+      </div>
+      
+      
+    </div>
+  </section>
+
+
+</div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'quizApp/quizApp.js' %}"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+    </script> -->
+{% endblock %}

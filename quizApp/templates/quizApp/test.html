@@ -1,0 +1,136 @@
+{% extends 'quizApp/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<section class="test text-dark border-bottom border-danger">
+    <div class="row test-timer border-bottom border-dark pb-4 ps-4 pe-4 pt-4 bg-danger">
+      <div class="col-lg-2 col-md-1"></div>
+      <div class="col-lg-8 col-md-10">
+        <div class="container">
+          <div class="row">
+            <h2>Timer: </h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-1"></div>
+    </div>
+
+    <div class="row test-questions">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8 col-md-10 col-10 p-5">
+        <div class="container test-questions-container">
+          <div class="row">
+
+            <form action="{% url 'answer' Quiz.id Quiz.slug %}" class="text-light" method="POST">
+              {% csrf_token %}
+              
+              {% for question in Questions %}
+              <div class="container test-container-for-questions" id="container-question-{{ question.id }}">
+                <h3>{{ question }}</h3> <br>
+                {% for option in question.options.all %}
+                <div class="form-check mt-2 ms-4 mb-3">
+                  <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input"><label for="{{ option.id }}" class="form-check-label">{{ option.option }}</label>
+                </div>
+                {% endfor %}
+                <br>
+                <br>
+              </div>
+              {% endfor %}
+
+              <div class="d-flex justify-content-end">
+                <a class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#finish_modal">Finish</a>
+                <!-- <input type="submit" value="Finish Now" class="btn btn-danger btn-lg"> -->
+              </div>
+
+              <!-- FINISH MODAL -->
+              <div class="modal fade" id="finish_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">FINISH</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <h5>Are you sure you want to finish the quiz?</h5>
+                      <p>Make sure to check that there is no unanswered questions.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <input type="submit" value="Finish Now" class="btn btn-success">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- FINISH MODAL -->
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-2 border-start border-danger">
+        <div class="container test-questions-navigation">
+          <div class="row mt-3">
+            {% for number, id in Questions_Length.items %}
+              <div class="test-questions-navigation-box d-flex justify-content-center align-items-center m-2" onclick="switch_number('{{ id }}')">
+                <a class="">{{ number }}</a>
+                <!-- <div class="btn btn-warning btn-sm" onclick="switch_number('{{ id }}')">{{ number }}</div> -->
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<footer class="main-footer" id="test-footer">
+  <div class="container d-flex justify-content-center mt-3">
+    <div class="row">
+      <h1> BE HONEST AND GOOD LUCK !! </h1>
+    </div>
+  </div>
+</footer>
+
+
+
+<!-- FINISH MODAL -->
+<a href="#" data-bs-toggle="modal" data-bs-target="#login_modal" class="btn btn-block btn-primary me-2">Login</a>
+<div class="modal fade" id="login_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success">Google</button>
+        <button type="button" class="btn btn-primary">Facebook</button>
+        <button type="button" class="btn btn-dark">GitHub</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FINISH MODAL -->
+
+
+
+{% endblock %}
+
+
+{% block script %}
+  <script src="{% static 'quizApp/test.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends 'quizApp/layout.html' %}
+
+{% block body %}
+
+<div class="main-profile-container bg-dark">
+  <div class="container bg-light h-100">
+    <div class="row h-100">
+      <div class="col-lg-4 col-md-5 col-sm-6 d-flex align-items-center">
+        <div class="container d-flex justify-content-center">
+          <img src="/media/profile/user.png" alt="" class="img-fluid rounded-circle mt-1">
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-7 col-sm-6 pt-4 ps-4">
+        <div class="row profile-info p-1">Gregorino Al Josan</div>
+        <div class="row profile-info p-1">Kuliah</div>
+        <div class="row profile-info p-1">Learner / Contributor</div>
+      </div>
+      <div class="container d-flex align-items-end">
+        <div class="col-lg-3 col-md-2 col-sm-1"></div>
+        <div class="col-lg-6 col-md-8 col-sm-10" style="text-align: center;">
+          <div class="btn btn-sm btn-profile">My Quizzes</div>
+          <div class="btn btn-sm btn-profile">Following</div>
+          <div class="btn btn-sm btn-profile">Data</div>
+        </div>
+        <div class="col-lg-3 col-md-2 col-sm-1"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--  I THINK THIS SOULD BE A JAVASCRIPT, OR USE TOGGLE DISPLAY=HIDDEN/BLOCK TRICK  -->
+<!-- MyQuizzes -->
+<div class="container mt-4 profile-section">
+  <div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10">Feels like to make a new quiz? &nbsp; <div class="btn btn-primary">Make a New Quiz</div></div>
+    <div class="col-lg-3 col-md-2 col-sm-1"></div>
+  </div>
+  
+  <div class="row mt-3">
+    <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
+    <div class="col-lg-10 col-md-10 col-sm-10 profile-content" style="text-align: center;">
+      <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-9">
+          <div class="row profile-content-judul p-2">JUDUL</div>
+          <div class="row profile-content-topic p-2">TOPIC</div>
+          <div class="row profile-content-participant p-2">PARTICIPANT</div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 profile-content-avgscr">NILAI</div>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
+    <div class="col-lg-10 col-md-10 col-sm-10 profile-content" style="text-align: center;">
+      <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-9">
+          <div class="row profile-content-judul p-2">JUDUL</div>
+          <div class="row profile-content-topic p-2">TOPIC</div>
+          <div class="row profile-content-participant p-2">PARTICIPANT</div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 profile-content-avgscr">NILAI</div>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
+  </div>
+</div>
+<!-- MyQuizzes -->
+
+
+<!-- Following -->
+<div class="container mt-4 profile-section">
+  <div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10">Feels like to make a new quiz? &nbsp; <div class="btn btn-primary">Make a New Quiz</div></div>
+    <div class="col-lg-3 col-md-2 col-sm-1"></div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
+    <div class="col-lg-10 col-md-10 col-sm-10 profile-content" style="text-align: center;">
+      <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-9">
+          <div class="row profile-content-judul p-2">JUDUL</div>
+          <div class="row profile-content-topic p-2">TOPIC</div>
+          <div class="row profile-content-participant p-2">PARTICIPANT</div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 profile-content-avgscr">NILAI</div>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
+  </div>
+</div>
+<!-- Following -->
+
+
+
+<!-- Data -->
+<section class="data mt-5 text-warning">
+  <div class="row">
+    <div class="col-lg-1 col-md-1"></div>
+    <div class="col-lg-10 col-md-10">
+      <div class="container">
+        <div class="row justify-content-center">DATA</div>
+        <div class="row border border-3 mt-3 border-dark p-3">
+          <div class="col-lg-4 col-md-4 col-sm-4 p-3">
+            <div class="container">
+              <div class="row justify-content-center">KONTRIBUSI</div>
+              <div class="row mt-2 ps-3">
+                <ul>
+                  <li>Topic 1</li>
+                  <li>Topic 2</li>
+                  <li>Topic 3</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 border-start border-end p-3">
+            <div class="container">
+              <div class="row justify-content-center">QUESTIONS</div>
+              <div class="row justify-content-center mt-2">2473</div>
+              <div class="row justify-content-center mt-4">ACTIVE SINCE</div>
+              <div class="row justify-content-center mt-2">1st of July, 2001</div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 p-3">
+            <div class="container">
+              <div class="row justify-content-center">RESOURCES</div>
+              <div class="row mt-2 ps-3">
+                <ul>
+                  <li>Link 1</li>
+                  <li>Link 2</li>
+                  <li>Link 3</li>
+                  <li>Link 4</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-1"></div>
+  </div>
+</section>
+<!-- Data -->
+
+
+{% for quiz in myQuizzes %}
+{{ quiz.title }}
+{{ quiz.average }}
+{% empty %}
+You haven't made any quiz yet
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'quizApp/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<section class="test text-dark border-bottom border-danger">
+    <div class="row test-timer border-bottom border-dark pb-4 ps-4 pe-4 pt-4 bg-danger">
+      <div class="col-lg-2 col-md-1"></div>
+      <div class="col-lg-8 col-md-10">
+        <div class="container">
+          <div class="row">
+            <h2>Time: {{ Participant.time_spent }}</h2>
+            <h4>Score: {{ Participant.score }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-1"></div>
+    </div>
+
+    <div class="row test-questions">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8 col-md-10 col-10 p-5">
+        <div class="container test-questions-container">
+          <div class="row text-light">
+              
+              {% for question in Questions %}
+              <div class="container test-container-for-questions" id="container-question-{{ question.id }}">
+                <h3>{{ question }}</h3> <br>
+                {% for option in question.options.all %}
+                
+                  {% if option.question.participant_is_correct and option.str_option == option.question.what_participant_answer %} 
+                  <!-- CORRECT CHOICE RADIO -->
+                  <div class="form-check mt-2 ms-4 mb-3 bg-success container rounded-pill">
+                      <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input answers-radio-correct" disabled checked style="margin-left: 1px;">
+                      <label for="{{ option.id }}" class="form-check-label ms-2">{{ option.option }}</label>
+                  </div>
+                  {% elif option.str_option == option.question.what_participant_answer %} 
+                  <!-- INCORRECT CHOICE RADIO -->
+                  <div class="form-check mt-2 ms-4 mb-3 bg-danger container rounded-pill">
+                      <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input answers-radio-incorrect" disabled checked style="margin-left: 1px;">
+                      <label for="{{ option.id }}" class="form-check-label ms-2">{{ option.option }}</label>
+                  </div>
+                  {% else %} 
+                  <!-- NOT CHOSEN RADIO -->
+                  <div class="form-check mt-2 ms-4 mb-3">
+                      <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input" disabled style="margin-left: 1px;">
+                      <label for="{{ option.id }}" class="form-check-label ms-2">{{ option.option }}</label>
+                  </div>
+                  {% endif %}
+                
+                {% endfor %}
+                <br>
+                <br>
+              </div>
+              {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-2 border-start border-danger">
+        <div class="container test-questions-navigation">
+          <div class="row mt-3">
+            {% for number, id in Questions_Length.items %}
+              <div class="test-questions-navigation-box d-flex justify-content-center align-items-center m-2" onclick="switch_number('{{ id }}')">
+                <a class="">{{ number }}</a>
+                <!-- <div class="btn btn-warning btn-sm" onclick="switch_number('{{ id }}')">{{ number }}</div> -->
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+
+{% block script %}
+  <script src="{% static 'quizApp/answer.js' %}"></script>
+{% endblock %}
