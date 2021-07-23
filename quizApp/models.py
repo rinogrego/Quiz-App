@@ -110,12 +110,17 @@ class Question(models.Model):
 
   def __str__(self):
     return f"{self.id}:  {self.question}"
-
+    
   def participant_is_correct(self):
-    return str(self.answer.all()[0]) == str(self.participant_answer.all()[0])
+    return str(self.answer.all()[0]) == str(self.participant_answer.get(participant_id=self.number).answer)
 
+  # hackery, sorry.
+  # this is just so that I can pass a variable from views.py to models.py
+  # this thing may be really dynamic
+  number = models.IntegerField(null=True)
   def what_participant_answer(self):
-    return str(self.participant_answer.all()[0])
+    # return str(self.participant_answer.get(participant__id=16).answer)
+    return str(self.participant_answer.get(participant_id=self.number).answer)
 
   def real_answer(self):
     return str(self.answer.all()[0])
@@ -151,7 +156,20 @@ class Participant(models.Model):
     return self.aggregate(Avg('score'))
 
   def time_spent(self):
-    return str(self.time_finished - self.time_start).split(".")[0]
+    day_hours = str(self.time_finished - self.time_start).split(".")[0]
+    try:
+      day = day_hours.split(", ")[0]
+      hours = day_hours.split(", ")[1].split(':')[0]
+      minutes = day_hours.split(", ")[1].split(':')[1]
+      seconds = day_hours.split(", ")[1].split(':')[2]
+      return f'{day}, {hours} Hours, {minutes} Minutes, {seconds} Seconds'
+    except:
+      hours = day_hours.split(':')[0]
+      minutes = day_hours.split(':')[1]
+      seconds = day_hours.split(':')[2]
+      if int(hours) == 0:
+        return f'{minutes} Minutes, {seconds} Seconds'
+      return f"{hours} Hours, {minutes} Minutes, {seconds} Seconds"
 
   def serialize(self):
     return {

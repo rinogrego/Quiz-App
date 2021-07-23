@@ -29,7 +29,7 @@ def grading(**kwargs):
   grading = []
   number_of_corrects = 0
   number_of_questions = len(questions)
-
+  
   for number in range(0, number_of_questions):
 
     if questions[number].answer.all()[0].answer == participant_answers[number].answer:
@@ -69,3 +69,4 @@ def grading(**kwargs):
   # return JsonResponse(grading_info, safe=False)
 
   """
+

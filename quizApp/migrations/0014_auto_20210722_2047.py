@@ -16,9 +16,4 @@ class Migration(migrations.Migration):
             name='time_finished',
             field=models.DateTimeField(default=datetime.datetime(2021, 7, 22, 20, 47, 28, 920508)),
         ),
-        migrations.AlterField(
-            model_name='quiz',
-            name='deadline',
-            field=models.DateTimeField(default=datetime.datetime(2021, 7, 22, 20, 47, 28, 917506)),
-        ),
     ]

@@ -10,7 +10,7 @@ urlpatterns = [
   path("study", views.study, name="study"),
   path("study/<int:topic_id>/<str:topic_slug>", views.topic, name="topic"),
   path("test/<int:quiz_id>/<str:quiz_slug>", views.test, name="test"),
-  path("test/<int:quiz_id>/<str:quiz_slug>/answers", views.answers, name="answer"),
+  path("test/<int:quiz_id>/<str:quiz_slug>/<int:participant_id>/answers", views.answers, name="answer"),
 
   # API Route
   path("data/users", views.data_users, name="data_users"),

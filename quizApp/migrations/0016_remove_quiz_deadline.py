@@ -8,10 +8,3 @@ class Migration(migrations.Migration):
     dependencies = [
         ('quizApp', '0015_auto_20210722_2048'),
     ]
-
-    operations = [
-        migrations.RemoveField(
-            model_name='quiz',
-            name='deadline',
-        ),
-    ]

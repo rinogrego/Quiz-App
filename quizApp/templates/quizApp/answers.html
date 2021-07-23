@@ -24,8 +24,10 @@
           <div class="row text-light">
               
               {% for question in Questions %}
+              
               <div class="container test-container-for-questions" id="container-question-{{ question.id }}">
                 <h3>{{ question }}</h3> <br>
+                
                 {% for option in question.options.all %}
                 
                   {% if option.question.participant_is_correct and option.str_option == option.question.what_participant_answer %} 

@@ -109,6 +109,10 @@ def test(request, quiz_id, quiz_slug):
   quiz = Quiz.objects.get(id=quiz_id, slug=quiz_slug)
   questions = quiz.questions.all()
 
+  # save participant data
+  participant = Participant(user=request.user, quiz=quiz, time_start=datetime.now(), time_finished=datetime.now(), score=0)
+  participant.save()
+
   # pagination
   # paginator = Paginator(questions, 1)
   # page_number = request.GET.get('page', 1)
@@ -134,15 +138,16 @@ def test(request, quiz_id, quiz_slug):
 
   return render(request, "quizApp/test.html", {
     "Quiz": quiz,
+    "Participant": participant,
     # "Questions": page_obj,
     "Questions": questions,
     "Questions_Length": questions_for_nav,
   })
 
 
-def answers(request, quiz_id, quiz_slug):
+def answers(request, quiz_id, quiz_slug, participant_id):
 
-  participant = Participant.objects.get(user=request.user, quiz__id=quiz_id)
+  participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
   quiz = Quiz.objects.get(id=quiz_id)
   questions = quiz.questions.all()
 
@@ -181,11 +186,93 @@ def answers(request, quiz_id, quiz_slug):
       data = ParticipantAnswer(participant=participant, question=question, answer=answer)
       data.save()
 
+    # grading score ( I feel there is a better way to do this )
+    grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
+    
+    # RE-Query ParticipantAnswer after the answers has been saved and answers has been graded (scored).
+    participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
+    quiz = Quiz.objects.get(id=quiz_id)
+    questions = quiz.questions.all()
 
-  # grading score ( I feel there is a better way to do this )
-  grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
-  # RE-Query ParticipantAnswer after the answers has been saved and answers has been graded (scored).
-  participant = Participant.objects.get(user=request.user, quiz__id=quiz_id)
+  # questions_status_answers_and_options = {}
+  # true_false = {}
+  # answers_and_options = {}
+  # options = []
+  # for nomor in range(0, len(questions)):
+  #   # return HttpResponse(questions[4].options.all()[3].option)
+  #   for number in range(0, len(questions)):
+  #     options.append( questions[nomor].options.all()[number].option )
+  #   if participant.answers.all()[nomor].answer == questions[nomor].answer.all()[0].answer:
+  #     status = True
+  #   else:
+  #     status = False
+  #   answers_and_options[f"{participant.answers.all()[nomor].answer}"] = options
+  #   true_false[status] = answers_and_options
+  #   questions_status_answers_and_options[f"{questions[nomor]}"] = true_false
+  #   true_false = {}
+  #   answers_and_options = {}
+  #   options = []
+  
+  for question in questions:
+    question.number = participant_id
+    question.save()
+
+  return render(request, "quizApp/answers.html", {
+    "Participant": participant,
+    "Quiz": quiz,
+    "Questions": questions,
+    "Questions_Length": questions_for_nav,
+    # "Questions_Status_Answers_and_Options": questions_status_answers_and_options,
+  })
+
+
+
+def answers_test(request, quiz_id, quiz_slug, participant_id):
+
+
+  # query the questions
+  quiz = Quiz.objects.get(id=quiz_id)
+  questions = quiz.questions.all()
+
+  # query the participant and its answers
+  participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
+  participant_answers = ParticipantAnswer.objects.filter(participant=participant)
+
+  # construct dictionary containing: {"number": "question id"}
+  questions_length = [number for number in range(1, len(questions)+1)]
+  questions_for_nav = {}
+  for number in questions_length:
+    questions_for_nav[number] = ""
+  for number in  range(0, len(questions)):
+    questions_for_nav[number+1] = questions[number].id
+  
+  if request.method == "POST":
+
+    # save the finished date
+    participant.time_finished = datetime.now()
+    participant.save()
+
+    # delete pre-existing records
+    ParticipantAnswer.objects.filter(participant = participant).delete()
+
+    for number, question_id in questions_for_nav.items():
+
+      # query the question
+      question = Question.objects.get(id=question_id)
+      # take the answer
+      answer = request.POST.get(f'{question_id}')
+      if answer == None: # answer is Null
+        answer = ""
+      # save it into the model
+      data = ParticipantAnswer(participant=participant, question=question, answer=answer)
+      data.save()
+
+    # grading score ( I feel there is a better way to do this )
+    grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
+    # RE-Query ParticipantAnswer after the answers has been saved and answers has been graded (scored).
+    participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
+    quiz = Quiz.objects.get(id=quiz_id)
+    questions = quiz.questions.all()
 
   
   return render(request, "quizApp/answers.html", {
@@ -194,6 +281,7 @@ def answers(request, quiz_id, quiz_slug):
     "Questions": questions,
     "Questions_Length": questions_for_nav,
   })
+
 
 
 def make_quiz(request):

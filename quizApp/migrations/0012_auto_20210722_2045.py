@@ -14,10 +14,5 @@ class Migration(migrations.Migration):
             model_name='participant',
             name='time_finished',
             field=models.DateTimeField(default=''),
-        ),
-        migrations.AlterField(
-            model_name='quiz',
-            name='deadline',
-            field=models.DateTimeField(default=''),
-        ),
+        )
     ]

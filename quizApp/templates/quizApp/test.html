@@ -22,7 +22,7 @@
         <div class="container test-questions-container">
           <div class="row">
 
-            <form action="{% url 'answer' Quiz.id Quiz.slug %}" class="text-light" method="POST">
+            <form action="{% url 'answer' Quiz.id Quiz.slug Participant.id %}" class="text-light" method="POST">
               {% csrf_token %}
               
               {% for question in Questions %}

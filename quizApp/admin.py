@@ -35,9 +35,9 @@ class AnswerInline(admin.TabularInline):
 
 class QuestionAdmin(admin.ModelAdmin):
   # things to be shown OUTSIDE
-  list_display = ("id", "quiz", "question")
+  list_display = ("id", "quiz", "question", "number")
   # things to be shown INSIDE
-  fields = ['quiz', 'question']
+  fields = ['quiz', 'question', "number"]
   inlines = [
     OptionInline,
     AnswerInline

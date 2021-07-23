@@ -10,11 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='quiz',
-            name='deadline',
-            field=models.DateTimeField(default=None),
-        ),
         migrations.AlterField(
             model_name='participant',
             name='time_finished',
