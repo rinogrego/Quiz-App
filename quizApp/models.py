@@ -121,6 +121,8 @@ class Question(models.Model):
   def what_participant_answer(self):
     # return str(self.participant_answer.get(participant__id=16).answer)
     return str(self.participant_answer.get(participant_id=self.number).answer)
+    # FUTURE Note
+    # return str(self.particiapnt_answer.get(quiz__id=quiz.id).answer); should have quiz = models.ForeignKey in ParticipantAnswer model.
 
   def real_answer(self):
     return str(self.answer.all()[0])
