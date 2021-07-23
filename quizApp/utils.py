@@ -8,6 +8,7 @@ import pandas as pd
 
 # grading function
 # returns score
+# ACTUALLY NOT NEEDED LMAO
 def grading(**kwargs):
 
   """
@@ -52,6 +53,9 @@ def grading(**kwargs):
   data.score = score
   data.save()
 
+
+  """
+    ### THIS BIG-A*S DICTIONARY ISN'T NEEDED ###
   grading_info = [{
     "participation id": participation_id,
     "participant username": request.user.username,
@@ -63,3 +67,5 @@ def grading(**kwargs):
 
   return grading_info
   # return JsonResponse(grading_info, safe=False)
+
+  """

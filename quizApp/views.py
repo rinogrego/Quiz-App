@@ -141,19 +141,14 @@ def test(request, quiz_id, quiz_slug):
 
 def answers(request, quiz_id, quiz_slug):
 
-  participant = Participant.objects.get(quiz__id=quiz_id)
+  participant = Participant.objects.get(user=request.user, quiz__id=quiz_id)
   quiz = Quiz.objects.get(id=quiz_id)
   questions = quiz.questions.all()
 
-  grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
+  # grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
   # results returns a list containing json objects of information
   # output example: "media/examples/Example Grading Function Output.png"
   # IN THE END, THAT WASN"T NEEDED LOL
-
-  # RE-Query after Grading
-  participant = Participant.objects.get(quiz__id=quiz_id)
-  quiz = Quiz.objects.get(id=quiz_id)
-  questions = quiz.questions.all()
 
   questions_length = [number for number in range(1, len(questions)+1)]
 
@@ -165,20 +160,28 @@ def answers(request, quiz_id, quiz_slug):
   # questions_for_nav = {number of a question: question.id}
   
   if request.method == "POST":
-    for number, question_id in questions_for_nav.items():
 
-      "   NOTEEEE  "
-      " HOW TO QUERY RADIO ANSWERS, "
-      " SO FAR, THE INTENDED QUERY IS RECEIVED (meaning if no question_id matches found, then request.POST.get(f`{question_id}`) return None), BUT THE VALUES ARE JUST 'ON' "
+    # delete pre-existing records
+    ParticipantAnswer.objects.filter(participant = participant).delete()
+
+    for number, question_id in questions_for_nav.items():
 
       # query the question
       question = Question.objects.get(id=question_id)
       # take the answer
       answer = request.POST.get(f'{question_id}')
-      # return HttpResponse(answer)
+      if answer == None: # answer is Null
+        answer = ""
       # save it into the model
-      # data = ParticipantAnswer(participant=participant, question=question, answer=answer)
-      # data.save()
+      data = ParticipantAnswer(participant=participant, question=question, answer=answer)
+      data.save()
+
+
+  # grading score ( I feel there is a better way to do this )
+  grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
+  # RE-Query ParticipantAnswer after the answers has been saved and answers has been graded (scored).
+  participant = Participant.objects.get(user=request.user, quiz__id=quiz_id)
+
   
   return render(request, "quizApp/answers.html", {
     "Participant": participant,
