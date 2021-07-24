@@ -65,6 +65,9 @@ def grading(**kwargs):
     "details": grading
   }]
 
+  # output example: "media/examples/Example Grading Function Output.png"
+  # BEEN CHANGED SINCE THEN I THINK I AM NOT SURE I WON'T BOTHER ANYMORE
+
   return grading_info
   # return JsonResponse(grading_info, safe=False)
 

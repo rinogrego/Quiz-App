@@ -315,3 +315,14 @@ footer {
 .answers-radio-incorrect {
   background-color: red;
 }
+
+
+/* make_quiz.html */
+
+.make-a-quiz-quesion-q-label {
+  border-radius: 10px;
+}
+
+.border-custom-121212 {
+  border-color: #121212;
+}

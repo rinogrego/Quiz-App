@@ -1,11 +1,94 @@
 {% extends 'quizApp/layout.html' %}
 {% load static %}
 
-
 {% block body %}
+
+<section class="test text-dark border-bottom border-danger">
+    <div class="row border-bottom border-dark p-4 bg-danger">
+      <div class="col-lg-4 col-md-6 col-sm-7 d-flex align-items-center justify-content-center">
+        <h1>Make Your Quiz</h1>
+      </div>
+      <div class="col-lg-8 col-md-6 col-sm-5">
+        <div class="container">
+          <div class="row">
+            <h4>Creator: {{ request.user.username }}</h4>
+            <form onsubmit=" generate_questions(this); return false;">
+              <input type="text" id="num-generate" placeholder="Generate Number" class="form-control-sm mb-1">
+              <input type="submit" value="Generate" class="btn btn-dark btn-sm mb-1" id="generate-button">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class=""></div>
+    </div>
+
+    <div class="row make_quiz-questions">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8 col-md-10 col-10 p-5">
+        <div class="container make_quiz-questions-container">
+          <div class="row text-light" id="questions-container">
+              
+              <form action="#" id="make-quiz-form" method="POST">
+                {% csrf_token %}
+                
+                <!-- Info -->
+                <div class="pb-3" id="topic-container" style="display: none">
+                  <label for="topic" class="form-label">Topic:</label>
+                  <select name="topic" id="topic" class="form-select bg-dark text-light border-custom-121212">
+                    <option id="topic-opt-choose-your-topic" value="Other">Choose Your Topic</option>
+                    {% for topic in Topics %}
+                    <option id="topic-opt-{{ topic.id }}" value="{{ topic.title }}"> {{ topic.title }} </option>
+                    {% empty %}
+                    <option id="topic-opt-other" value="Other">Other</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="pb-3" id="title-container" style="display: none">
+                  <label for="title" class="form-label">Title:</label>
+                  <input type="text" name="title" id="title" placeholder="The title of your quiz" class="form-control bg-dark text-light border-custom-121212">
+                </div>
+                <div class="pb-5" id="num-container" style="display: none">
+                  <label for="num" class="form-label">Number of Questions:</label>
+                  <input type="text" name="num" id="num" value="5" class="form-control bg-dark text-light border-custom-121212">
+                </div>
+                  
+  
+                <!-- FINISH MODAL -->
+                <div class="modal fade" id="finish_create_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content bg-dark text-light">
+                      <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">FINISH</h3>
+                        <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <h5>Are you sure you want to submit now?</h5>
+                        <p>Make sure to check that there is no mistakes. Updating is <br><strong>NOT CURRENTLY POSSIBLE.</strong></p>
+                      </div>
+                      <div class="modal-footer">
+                        <input type="submit" value="Finish Now" class="btn btn-dark border-custom-121212">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- FINISH MODAL -->
+                
+              </form>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-2 border-start border-danger">
+        
+      </div>
+    </div>
+</section>
+
 
 {% endblock %}
 
 
 {% block script %}
-{% endblock }
+  <script src="{% static 'quizApp/make_quiz.js' %}"></script>
+{% endblock %}

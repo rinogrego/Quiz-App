@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import Avg
 
-from .models import User, Quiz, Question, Topic, Participant, ParticipantAnswer
+from .models import Answer, User, Quiz, Question, Topic, Participant, ParticipantAnswer, Option
 import json
 from random import shuffle
 from .utils import grading
@@ -151,11 +151,6 @@ def answers(request, quiz_id, quiz_slug, participant_id):
   quiz = Quiz.objects.get(id=quiz_id)
   questions = quiz.questions.all()
 
-  # grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
-  # results returns a list containing json objects of information
-  # output example: "media/examples/Example Grading Function Output.png"
-  # IN THE END, THAT WASN"T NEEDED LOL
-
   questions_length = [number for number in range(1, len(questions)+1)]
 
   questions_for_nav = {}
@@ -163,7 +158,7 @@ def answers(request, quiz_id, quiz_slug, participant_id):
     questions_for_nav[number] = ""
   for number in  range(0, len(questions)):
     questions_for_nav[number+1] = questions[number].id
-  # questions_for_nav = {number of a question: question.id}
+  # output: questions_for_nav = {number of a question: question.id, number of a question: question.id, ...}
   
   if request.method == "POST":
 
@@ -213,6 +208,7 @@ def answers(request, quiz_id, quiz_slug, participant_id):
   #   answers_and_options = {}
   #   options = []
   
+  # for easier query about answer correctness highlighting in the template.
   for question in questions:
     question.number = participant_id
     question.save()
@@ -226,74 +222,60 @@ def answers(request, quiz_id, quiz_slug, participant_id):
   })
 
 
+def make_quiz(request, username):
 
-def answers_test(request, quiz_id, quiz_slug, participant_id):
+  # query Topics
+  topics = Topic.objects.all()
 
+  if request.user.username != username:
+    
+    # message = 'You can only make a quiz for yourself.'
+    return HttpResponseRedirect(reverse("make_quiz", args=[request.user.username]))
 
-  # query the questions
-  quiz = Quiz.objects.get(id=quiz_id)
-  questions = quiz.questions.all()
-
-  # query the participant and its answers
-  participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
-  participant_answers = ParticipantAnswer.objects.filter(participant=participant)
-
-  # construct dictionary containing: {"number": "question id"}
-  questions_length = [number for number in range(1, len(questions)+1)]
-  questions_for_nav = {}
-  for number in questions_length:
-    questions_for_nav[number] = ""
-  for number in  range(0, len(questions)):
-    questions_for_nav[number+1] = questions[number].id
-  
   if request.method == "POST":
 
-    # save the finished date
-    participant.time_finished = datetime.now()
-    participant.save()
+    # save the quiz data
+    title = request.POST.get('title')
+    if title == "" or title == None:
+      return HttpResponse('error Title Not Defined')
+    topic = request.POST.get('topic')
+    slug = title.replace(' ', '-')
+    quiz = Quiz(slug=slug, title=title, creator=request.user, topic__title=topic)
+    quiz.save()
 
-    # delete pre-existing records
-    ParticipantAnswer.objects.filter(participant = participant).delete()
+    # save the question data
+    number_of_questions = request.POST.get('num')
+    for number in range(1, number_of_questions+1):
+      question = request.POST.get(f'q-{number}')
+      q = Question(quiz=quiz, question=question)
+      q.save()
 
-    for number, question_id in questions_for_nav.items():
+      # save the options data
+      # number_of_options = request.POST.get(f'q-{number}-opt-num')
+      number_of_options = 5 # 5 options
+      for option in range(1, number_of_options+1):
+        option = request.POST.get(f'q-{number}-opt-{option}')
+        o = Option(question=q, option=option)
+        o.save()
+      
+      # save the answer data
+      answer = request.POST.get(f'q-{number}-answer')
+      a = Answer(question=q, answer=answer)
 
-      # query the question
-      question = Question.objects.get(id=question_id)
-      # take the answer
-      answer = request.POST.get(f'{question_id}')
-      if answer == None: # answer is Null
-        answer = ""
-      # save it into the model
-      data = ParticipantAnswer(participant=participant, question=question, answer=answer)
-      data.save()
+    return HttpResponse('Quiz created successfully!')
 
-    # grading score ( I feel there is a better way to do this )
-    grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
-    # RE-Query ParticipantAnswer after the answers has been saved and answers has been graded (scored).
-    participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
-    quiz = Quiz.objects.get(id=quiz_id)
-    questions = quiz.questions.all()
-
-  
-  return render(request, "quizApp/answers.html", {
-    "Participant": participant,
-    "Quiz": quiz,
-    "Questions": questions,
-    "Questions_Length": questions_for_nav,
+  return render(request, "quizApp/make_quiz.html", {
+    "Topics": topics,
   })
 
 
-
-def make_quiz(request):
-  if request.method == "POST":
-    # do something
-    pass
-  return render(request, "quizApp/make_quiz.html")
-
-
 # this one may be omitted because my_quiz may be a one page with profile
-def my_quiz(request, user_id):
-  return True
+# def my_quiz(request, user_id):
+
+#   quizzes = Quiz.objects.get(creator=request.user).all()
+#   return render(request, "quizApp/my_quiz.html", {
+#     "Quizzes": quizzes,
+#   })
 
 
 
