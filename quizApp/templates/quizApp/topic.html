@@ -44,7 +44,7 @@
                   <h3 class="d-flex justify-content-center align-items-center h-100">{{ quiz.title }}</h3>
                 </div>
                 <a class="card-text topic-card-text mt-1">{{ quiz.topic }}</a>
-                <a class="card-text topic-card-text">By: {{ quiz.creator.username }}</a>
+                <a class="card-text topic-card-text" href="{% url 'profile' quiz.creator.username %}">By: {{ quiz.creator.username }}</a>
                 {% if has_been_taken_or_score != False %}
                   <h4 class="card-text text-danger mt-1">{{ has_been_taken_or_score | floatformat:2 }}</h4>
                 {% endif %}

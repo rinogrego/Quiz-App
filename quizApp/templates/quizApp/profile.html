@@ -13,16 +13,36 @@
         </div>
       </div>
       <div class="col-lg-8 col-md-8 col-sm-7 col-7 pt-4 ps-4">
-        <div class="row profile-info p-1">{{ User.username }}</div>
+        <div class="row profile-info p-1">
+          {{ User.username }}
+          {% if request.user.username == User.username %}
+          {% else %}
+            {% if Follow_status %}
+            <div class="btn btn-sm btn-custom-121212 d-flex justify-content-center align-items-center ms-4" style="width: 15%;">
+              <a href="{% url 'follow' User.username %}"  class="rounded-pill border p-1 border-dark" id="profile-unfollow">Unfollow</a>
+            </div>
+            {% else %}
+            <div class="btn btn-sm btn-custom-121212 d-flex justify-content-center align-items-center ms-4" style="width: 15%;">
+              <a href="{% url 'follow' User.username %}" class="rounded-pill border p-1 border-dark" id="profile-follow">Follow</a>
+            </div>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% if request.user.username == User.username %}
         <div class="row profile-info p-1" data-bs-toggle="modal" data-bs-target="#change_status_modalx" id="profile-change-status">
           {{ User.get_level_display }}
         </div>
+        {% else %}
+        <div class="row profile-info p-1">
+          {{ User.get_level_display }}
+        </div>
+        {% endif %}
         <div class="row profile-info p-1">{{ User.status }}</div>
       </div>
       <div class="container d-flex align-items-end">
         <div class="col-lg-3 col-md-2 col-sm-1"></div>
         <div class="col-lg-6 col-md-8 col-sm-10" style="text-align: center;">
-          <div class="btn btn-sm btn-profile" onclick="show_myQuizzes()">My Quizzes</div>
+          <div class="btn btn-sm btn-profile" onclick="show_myQuizzes()">Quizzes</div>
           <div class="btn btn-sm btn-profile" onclick="show_followingQuizzes()">Following</div>
           <div class="btn btn-sm btn-profile" onclick="show_data()">Data</div>
         </div>
@@ -52,6 +72,7 @@
     <div class="row mb-4">
     <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
     <div class="col-lg-10 col-md-10 col-sm-10 profile-content bg-dark" style="text-align: center;">
+      <a href="{% url 'test' quiz.id quiz.slug %}" class="profile-quiz-container-anchor">
       <div class="row text-danger">
         <div class="col-lg-9 col-md-9 col-sm-9">
           <div class="row profile-content-judul p-2 display-custom ps-4">{{ quiz.title }}</div>
@@ -60,6 +81,7 @@
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 profile-content-avgscr d-flex justify-content-center align-items-center">{{ quiz.average_score | floatformat:2 }}</div>
       </div>
+      </a>
     </div>
     <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
   </div>
@@ -97,7 +119,7 @@
     </div>
     {% empty %}
       
-      <p class="display-6 mt-4 pt-4 d-flex justify-content-center">Your following haven't made any quizzes yet.</p>
+      <p class="display-6 mt-4 pt-4 d-flex justify-content-center">This account's following haven't made any quizzes yet.</p>
       
     {% endfor %}
   </div>
@@ -191,7 +213,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{% url 'profile' user.username %}" method="POST">
+        <form action="{% url 'profile' request.user.username %}" method="POST">
           {% csrf_token %}
           <div class="mb-3">
             <select type="file" class="form-select-sm form-control" name="status">

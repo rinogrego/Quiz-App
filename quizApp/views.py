@@ -89,6 +89,13 @@ def profile(request, username):
   following_quizzes = Quiz.objects.filter(creator__in=user.follows.all())
   topics = Topic.objects.all()
 
+  try:
+    # if the account is followed by the user
+    user.followers.get(id=request.user.id)
+    follow_status = True
+  except:
+    follow_status = False
+
   if request.method == "POST":
     # changing profile picture
     # return JsonResponse(request.POST, safe=False)
@@ -117,7 +124,21 @@ def profile(request, username):
     "myQuizzes": my_quizzes,
     "followingQuizzes": following_quizzes,
     "Contributions": contributions,
+    "Follow_status": follow_status,
   })
+
+
+def follow(request, username):
+  account = User.objects.get(username=username)
+  try:
+    # Check whether the user already follows the account or not
+    User.objects.get(username=username, followers=request.user)
+    account.followers.remove(request.user)
+  except:
+      # if the user hasn't followed the account
+      account.followers.add(request.user)
+
+  return HttpResponseRedirect(reverse('profile', args=[username]))
 
 
 def study(request):
