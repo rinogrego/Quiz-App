@@ -94,7 +94,7 @@
                   <img src="{{ contributor.image }}" alt="{{ contributor.username }}" class="img-fluid" > <br>
                 </div>
                 <div class="col-9">
-                  <a><strong>{{ contributor.username }}</strong></a> <br>
+                  <a href="{% url 'profile' contributor.username %}" id="index-contributor-name"><strong>{{ contributor.username }}</strong></a> <br>
                   <a><strong>{{ contributor.get_level_display }}</strong></a> <br>
                 </div>
               </div>

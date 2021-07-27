@@ -87,7 +87,14 @@ body {
   border-bottom: 1px solid black;
 }
 
+#index-contributor-name {
+  color: black;
+  text-decoration-line: none;
+}
 
+#index-contributor-name:hover {
+  color: #0d6efd;
+}
 
 
 
