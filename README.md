@@ -17,8 +17,7 @@ This project utilizes django (plain and obvious) and javascript to manipulate so
 This project utilizes bootstrap to handle responsiveness as displayed in the project demonstration video.
 
 Folders and Files contained in this projects are:
- capstone
-  - capstone containing all the default file settings of the project (__pycache__ folder, __init__, asgi.py, settings.py, urls.py, wsgi.py)
+  - capstone => containing all the default file settings of the project (__pycache__ folder, __init__, asgi.py, settings.py, urls.py, wsgi.py)
   - media => containing all the media files. Divided into 2 categories. Banner folder for a banner and profile folder for users' profile picture.
             *Note: example folder is just reference. Not really important. The picture inside contains an output of a logic that I created but didn't use.
   - quizApp => containing all the necessary parts of the projects (__pycache__, migrations, static, templates, .gitignore, db.sqlite3. manage.py, ReadME)
