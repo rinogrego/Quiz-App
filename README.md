@@ -18,47 +18,27 @@ This project utilizes bootstrap to handle responsiveness as displayed in the pro
 
 Folders and Files contained in this projects are:
  capstone
- |
- |\_ capstone => containing all the default file settings of the project (__pycache__ folder, __init__, asgi.py, settings.py, urls.py, wsgi.py)
- |
- |\_ media => containing all the media files. Divided into 2 categories. Banner folder for a banner and profile folder for users' profile picture.
- |           *Note: example folder is just reference. Not really important. The picture inside contains an output of a logic that I created but didn't use.
- |
-  \_ quizApp => containing all the necessary parts of the projects (__pycache__, migrations, static, templates, .gitignore, db.sqlite3. manage.py, ReadME)
-    |
-    |\_ migrations => there is really nothing to say.
-    |
-    |\_ static => contains the static folders (bootstrap offline folder and quizApp containing all the CS and JavaScript files)
-    |
-    |\_ templates => contains the template HTML for the projects.
-    |  |
-    |  |\_ boostrap-5.0 => offline bootstraping
-    |  |
-    |  |\_ quizApp => CSS and JavaScript files
-    |     |
-    |     |\_ answer.js => javascript for answer.html
-    |     |
-    |     |\_ make_quiz.js => javascript for make_quiz.html. Generating questions form
-    |     |
-    |     |\_ styles.css => all the styling needed for templates. Diffentiated with class/id naming and commented template.html name
-    |     |
-    |      \_ test.js => javascript for test.html.
-    |
-    |\_ __init__.py => python folder initialization
-    |
-    |\_ admin.py => displaying admin interface
-    |
-    |\_ apps.py => app configuration
-    |
-    |\_ models.py => models for the projects.
-    |
-    |\_ tests.py => not used
-    |
-    |\_ urls.py => url configuration
-    |
-    |\_ utils.py => contains function for grading
-    |
-     \_ views.py => controlling the template/view
+  - capstone containing all the default file settings of the project (__pycache__ folder, __init__, asgi.py, settings.py, urls.py, wsgi.py)
+  - media => containing all the media files. Divided into 2 categories. Banner folder for a banner and profile folder for users' profile picture.
+            *Note: example folder is just reference. Not really important. The picture inside contains an output of a logic that I created but didn't use.
+  - quizApp => containing all the necessary parts of the projects (__pycache__, migrations, static, templates, .gitignore, db.sqlite3. manage.py, ReadME)
+    - migrations => there is really nothing to say.
+    - static => contains the static folders (bootstrap offline folder and quizApp containing all the CS and JavaScript files)
+    - templates => contains the template HTML for the projects.
+    |  - boostrap-5.0 => offline bootstraping
+    |  - quizApp => CSS and JavaScript files
+    |     - answer.js => javascript for answer.html
+    |     - make_quiz.js => javascript for make_quiz.html. Generating questions form
+    |     - styles.css => all the styling needed for templates. Diffentiated with class/id naming and commented template.html name
+    |     - test.js => javascript for test.html.
+    - init__.py => python folder initialization
+    - admin.py => displaying admin interface
+    - apps.py => app configuration
+    - models.py => models for the projects.
+    - tests.py => not used
+    - urls.py => url configuration
+    - utils.py => contains function for grading
+    - views.py => controlling the template/view
 
 How to run the application:
 1. Download the all the files.
