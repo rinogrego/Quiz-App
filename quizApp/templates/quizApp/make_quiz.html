@@ -28,7 +28,7 @@
         <div class="container make_quiz-questions-container">
           <div class="row text-light" id="questions-container">
               
-              <form action="#" id="make-quiz-form" method="POST">
+              <form action="{% url 'make_quiz' request.user.username %}" id="make-quiz-form" method="POST">
                 {% csrf_token %}
                 
                 <!-- Info -->
@@ -49,7 +49,7 @@
                 </div>
                 <div class="pb-5" id="num-container" style="display: none">
                   <label for="num" class="form-label">Number of Questions:</label>
-                  <input type="text" name="num" id="num" value="5" class="form-control bg-dark text-light border-custom-121212">
+                  <input type="text" name="num" id="num" class="form-control bg-dark text-light border-custom-121212" readonly>
                 </div>
                   
   
@@ -90,5 +90,5 @@
 
 
 {% block script %}
-  <script src="{% static 'quizApp/make_quiz.js' %}"></script>
+  <script src="{% static 'quizApp/make_quiz4.js' %}"></script>
 {% endblock %}

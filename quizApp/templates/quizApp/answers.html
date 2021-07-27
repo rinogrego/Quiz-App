@@ -23,13 +23,12 @@
         <div class="container test-questions-container">
           <div class="row text-light">
               
-              {% for question in Questions %}
+              {% for number, question in Questions %}
               
               <div class="container test-container-for-questions" id="container-question-{{ question.id }}">
-                <h3>{{ question }}</h3> <br>
+                <h3>{{ number }}. {{ question }}</h3> <br>
                 
                 {% for option in question.options.all %}
-                
                   {% if option.question.participant_is_correct and option.str_option == option.question.what_participant_answer %} 
                   <!-- CORRECT CHOICE RADIO -->
                   <div class="form-check mt-2 ms-4 mb-3 bg-success container rounded-pill">
@@ -81,4 +80,12 @@
 
 {% block script %}
   <script src="{% static 'quizApp/answer.js' %}"></script>
+  <script type="text/JavaScript">
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      localStorage.removeItem('countDownValue');
+      window.localStorage.removeItem('countDownValue');
+    })
+
+  </script>
 {% endblock %}

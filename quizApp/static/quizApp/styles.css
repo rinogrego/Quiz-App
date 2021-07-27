@@ -5,6 +5,15 @@ body {
 
 
 
+/* login.html */
+
+
+
+
+
+
+/* index.html */
+
 .index-network-banner {
   background-image: url('/media/banner/Banner.jpg');
   background-size: cover;
@@ -81,6 +90,8 @@ body {
 
 
 
+
+
 /* profile.html */
 
 
@@ -106,12 +117,12 @@ body {
 .main-profile-container {
   height: 22vw;
 }
-@media (max-width: 650px){
+@media (max-width: 768px){
   .main-profile-container {
-    height: 35vh;
+    height: 30vh;
   }
   .profile-info {
-    font-size: 3vw;
+    font-size: 20px;
   }
 }
 @media (min-width: 651px) {
@@ -120,26 +131,37 @@ body {
   }
 }
 
+#profile-change-status {
+  text-decoration-line: none;
+}
 
+#profile-change-status:hover {
+  cursor: pointer;
+  color: black;
+}
 
 .btn-profile {
-  background-color: darkred;
-  border: 1px solid darkred;
+  background-color: #121212;
+  border: 1px solid #121212;
   border-radius: 5px 5px 0px 0px;
   color: white;
 }
 
 .btn-profile:hover, .btn-profile:focus {
-  background-color: red;
+  background-color: black;
   color: white;
 }
 
 .btn-profile:hover {
-  border-bottom-color: red;
+  border-bottom-color: black;
 }
 
 .profile-section {
   color: white;
+}
+
+.profile-quiz-container-anchor {
+  text-decoration-line: none;
 }
 
 .profile-content {
@@ -157,11 +179,20 @@ body {
   border-bottom: 1px solid black;
 }
 
+@media (max-width:575px) {
+  .profile-content-avgscr {
+    border-top: 1px solid black;
+  }
+}
+
 .profile-content-avgscr {
-  text-align: center;
-  padding: 50px 0px;
+  font-size: 45px;
   /* border: 1px solid black; */
   border-left: 1px solid black;
+}
+
+.display-custom {
+  font-size: 1.5rem;
 }
 
 
@@ -182,7 +213,22 @@ footer {
 
 .list-item-footer {
   background-color: black;
+  list-style-type: none;
 }
+
+.list-item-footer > a {
+  text-decoration-line: none;
+  color: gray;
+}
+
+.list-item-footer > a:hover {
+  color: darkred;
+}
+
+.bg-custom-121212 {
+  background-color: #121212;
+}
+
 
 
 

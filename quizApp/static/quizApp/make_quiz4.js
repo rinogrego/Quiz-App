@@ -1,26 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-  // Hide all the questions first
-  document.querySelectorAll('.test-container-for-questions').forEach( (question_container) => {
-    question_container.setAttribute('style', 'display: none;')
-  })
-  document.querySelectorAll('.test-container-for-questions')[0].setAttribute('style', 'display: block')
-
-
-})
-
-function switch_number (question_id) {
-
-  question_id = parseInt(question_id);
-  // Hide all the questions first
-  document.querySelectorAll('.test-container-for-questions').forEach( (question_container) => {
-    question_container.setAttribute('style', 'display: none;')
-  })
-  // Show the appropriate question
-  document.querySelector(`#container-question-${question_id}`).setAttribute('style', 'display: block')
-
-}
-
 
 function generate_questions() {
   const generate_btn = document.querySelector('#generate-button');
@@ -38,9 +15,8 @@ function generate_questions() {
   title_container.style.display = 'block';
   num_container.style.display = 'block';
 
-  const num_input = document.querySelector('#num')
-  num_input.value = number
-  num_input.disabled = true
+  const num_input = document.getElementById('num');
+  num_input.setAttribute('value', `${number}`);
   // Generate Info
 
 

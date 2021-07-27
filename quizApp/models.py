@@ -4,22 +4,52 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.expressions import Random
 from django.db.models.fields import related
 from django.db.models import Avg
+from datetime import datetime
 
 # Create your models here.
 
 class User(AbstractUser):
   
-  # major/status = models.CharField(max_length=30, null=False, blank=False) # multiple choice : college student, high school student, working
-  # picture
+  image = models.ImageField(upload_to='media/profile/', default='media/profile/user.png')
+  date = models.DateTimeField(auto_now_add=True)
   year = models.IntegerField(null=True, blank=False)
   follows = models.ManyToManyField("self", related_name="followers", symmetrical=False, blank=True)
+  LEVEL_CHOICES = (
+    ('O', 'Other'),
+    ('C', 'College Students'),
+    ('G', 'Graduate'),
+    ('W', 'Working'),
+  )
+  level = models.CharField(max_length=50, choices=LEVEL_CHOICES, default='Other')
 
   def has_contribution(self):
     if self.quizzes.count() > 0:
       return True
     else:
       return False
-  
+
+  def has_participated(self):
+    if self.quizzes_taken.count() > 0:
+      return True
+    else:
+      return False
+
+  def status(self):
+    if self.has_participated() == True and self.has_contribution() == True:
+      return "Learner / Contributor"
+    elif self.has_participated() == True:
+      return "Learner"
+    elif self.has_contribution() == True:
+      return "Contributor"
+    else:
+      return "Sightseeing"
+
+  def date_mm_dd_yy(self):
+    return str(self.date.strftime("%b %d, %Y"))
+
+  def contribution_count(self):
+    return self.quizzes.count()
+
   def serialize(self):
     return {
       "id": self.id,
@@ -63,6 +93,17 @@ class Topic(models.Model):
         "creator": quiz.creator.username,
         } for quiz in self.quizzes.all()],
     }
+
+  def quiz_count(self):
+    return Quiz.objects.filter(topic=self.id).count()
+
+  def contributors(self):
+    # query Users dimana quizzes yang mereka miliki ada di query set: quiz-quiz yang memiliki topic sesuai id topic (????? This works?)
+    contributors = User.objects.filter(quizzes__in=Quiz.objects.filter(topic=self.id)).all()
+    return [contributor.username for contributor in contributors]
+
+  def participant(self):
+    return Participant.objects.filter(quiz__in=Quiz.objects.filter(topic=self)).count()
     
   def __str__(self):
     return self.title
@@ -75,6 +116,10 @@ class Quiz(models.Model):
   topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="quizzes")
   date = models.DateTimeField(auto_now_add=True)
   # passing_grade = models.IntegerField()
+
+  def average_score(self):
+    result = Participant.objects.filter(quiz__id=self.id).aggregate(Avg("score"))
+    return result["score__avg"]
   
   def serialize(self):
     return {
@@ -109,10 +154,12 @@ class Question(models.Model):
     }
 
   def __str__(self):
-    return f"{self.id}:  {self.question}"
+    return f"{self.question}"
     
   def participant_is_correct(self):
-    return str(self.answer.all()[0]) == str(self.participant_answer.get(participant_id=self.number).answer)
+    # return ParticipantAnswer.objects.get(question=self.id).answer == Answer.objects.get(question=self.id).answer #returns a single record. WORKS IF only one attempt allowed
+    return ParticipantAnswer.objects.filter(question=self.id).order_by('-id')[0].answer == Answer.objects.filter(question=self.id).order_by('-id')[0].answer # get THE LATEST ATTEMPT data
+    # return str(self.answer.all()[0]) == str(self.participant_answer.get(participant_id=self.number).answer)
 
   # hackery, sorry.
   # this is just so that I can pass a variable from views.py to models.py
@@ -120,7 +167,9 @@ class Question(models.Model):
   number = models.IntegerField(null=True)
   def what_participant_answer(self):
     # return str(self.participant_answer.get(participant__id=16).answer)
-    return str(self.participant_answer.get(participant_id=self.number).answer)
+    # return ParticipantAnswer.objects.get(question=self.id).answer #returns a single record. WORKS IF only one attempt allowed
+    return ParticipantAnswer.objects.filter(question=self.id).order_by('-id')[0].answer # get THE LATEST ATTEMPT data
+    # return str(self.participant_answer.get(participant_id=self.number).answer) <== FUTURE Note : This is wrong
     # FUTURE Note
     # return str(self.particiapnt_answer.get(quiz__id=quiz.id).answer); should have quiz = models.ForeignKey in ParticipantAnswer model.
 
@@ -150,28 +199,31 @@ class Answer(models.Model):
 class Participant(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="quizzes_taken")
   quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="taken_by")
-  time_start = models.DateTimeField(auto_now_add=True)
+  time_start = models.DateTimeField()
   time_finished = models.DateTimeField()
   score = models.IntegerField()
 
   def average(self):
-    return self.aggregate(Avg('score'))
+    return self.objects.all()
 
   def time_spent(self):
-    day_hours = str(self.time_finished - self.time_start).split(".")[0]
     try:
-      day = day_hours.split(", ")[0]
-      hours = day_hours.split(", ")[1].split(':')[0]
-      minutes = day_hours.split(", ")[1].split(':')[1]
-      seconds = day_hours.split(", ")[1].split(':')[2]
-      return f'{day}, {hours} Hours, {minutes} Minutes, {seconds} Seconds'
+      day_hours = str(self.time_finished - self.time_start).split(".")[0]
+      try:
+        day = day_hours.split(", ")[0]
+        hours = day_hours.split(", ")[1].split(':')[0]
+        minutes = day_hours.split(", ")[1].split(':')[1]
+        seconds = day_hours.split(", ")[1].split(':')[2]
+        return f'{day}, {hours} Hours, {minutes} Minutes, {seconds} Seconds'
+      except:
+        hours = day_hours.split(':')[0]
+        minutes = day_hours.split(':')[1]
+        seconds = day_hours.split(':')[2]
+        if int(hours) == 0:
+          return f'{minutes} Minutes, {seconds} Seconds'
+        return f"{hours} Hours, {minutes} Minutes, {seconds} Seconds"
     except:
-      hours = day_hours.split(':')[0]
-      minutes = day_hours.split(':')[1]
-      seconds = day_hours.split(':')[2]
-      if int(hours) == 0:
-        return f'{minutes} Minutes, {seconds} Seconds'
-      return f"{hours} Hours, {minutes} Minutes, {seconds} Seconds"
+      return self.time_finished
 
   def serialize(self):
     return {

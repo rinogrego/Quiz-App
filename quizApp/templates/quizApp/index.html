@@ -17,14 +17,14 @@
         </div>
         <div class="col-lg-4 col-md-4 d-flex align-items-center justify-content-center">
           <div class="row">
-            <a href="{% url 'study' %}" class="btn btn-primary btn-lg">Quiz Now!</a>
+            <a href="{% url 'study' %}" class="btn btn-dark btn-lg">Quiz Now!</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <section class="index-topic">
+  <section class="index-topic mb-5">
     <div class="container">
 
       <div class="row justify-content-center">
@@ -37,155 +37,94 @@
 
       <div class="row">
         
-        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
-          <div class="card topic-card">
+        {% for topic in Topics %}
+        <div class="col-lg-3 col-md-4 col-6 mt-3">
+          <div class="card topic-card h-100 bg-dark text-light">
             <div class="card-body">
-              <h3 class="card-title">Topic Title</h3>
-              <a class="card-text index-card-text"><strong>Total Quizzes: 21</strong></a> <br>
-              <a class="card-level-college">College</a> <br>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
+              <h3 class="card-title">{{ topic.title }}</h3>
+            </div>
+            <div class="container">
+              <a class="card-text index-card-text text-light"><strong>{{ topic.quizzes.count }} Quizzes</strong></a> <br>
+              <p class="card-text index-card-text"><strong>{{ topic.participant }} Participants / Attempts</strong></p> <br>
+            </div>
+            <div class="container mb-3 w-75">
               <div class="row justify-content-center">
-                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
+                <a href="{% url 'topic' topic.id topic.slug %}" class="btn btn-sm btn-danger align-items-end">View Topic</a>
               </div>
             </div>
           </div>
         </div>
-        
-        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
-          <div class="card topic-card">
-            <div class="card-body">
-              <h3 class="card-title">Topic Title</h3>
-              <a class="card-text index-card-text"><strong>Total Quizzes: 3</strong></a> <br>
-              <a class="card-level-elementary">Elementary</a> <br>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
-              <div class="row justify-content-center">
-                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
-          <div class="card topic-card">
-            <div class="card-body">
-              <h3 class="card-title">Topic Title</h3>
-              <a class="card-text index-card-text"><strong>Total Quizzes: 9</strong></a> <br>
-              <a class="card-level-junior">Junior School</a> <br>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
-              <div class="row justify-content-center">
-                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-lg-3 col-md-3 col-sm-4 mt-3">
-          <div class="card topic-card">
-            <div class="card-body">
-              <h3 class="card-title">Topic Title</h3>
-              <a class="card-text index-card-text"><strong>Total Quizzes: 15</strong></a> <br>
-              <a class="card-level-high">High School</a> <br>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, illum?</p>
-              <div class="row justify-content-center">
-                <a href="#" class="btn btn-sm btn-primary">View Topic</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-
+        {% endfor %}
         
       </div>
 
-      <div class="row justify-content-center">
+      <!-- Implement with Pagination -->
+      <!-- Only if the database is already too big -->
+      <!-- <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 mt-4 mb-4">
           <div id="what-we-cover">
             <a href="#" class="btn btn-sm btn-primary">See More</a>
           </div>
         </div>
-      </div>
+      </div> -->
 
     </div>
   </section>
 
 
-  <section class="contributor bg-secondary">
+  <section class="contributor bg-dark">
     <div class="container">
 
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 pt-3">
           <div id="our-contributors">
-            <h2>Our Contributors</h2>
+            <h2 class="text-light">Our Contributors</h2>
           </div>
         </div>
       </div>
       
       <div class="row">
         
-        <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
-          <div class="card topic-card">
-            <div class="card-body">
+        {% for contributor in Contributors %}
+        <div class=" col-md-4 col-6 mt-3 mb-5">
+          <div class="card topic-card border border-secondary h-100">
+            <div class="card-body bg-custom-121212 text-light">
               <div class="row card-profile-photo">
-                IMG
+                <div class="col-3 d-flex justify-content-center align-items-center">
+                  <img src="{{ contributor.image }}" alt="{{ contributor.username }}" class="img-fluid" > <br>
+                </div>
+                <div class="col-9">
+                  <a><strong>{{ contributor.username }}</strong></a> <br>
+                  <a><strong>{{ contributor.get_level_display }}</strong></a> <br>
+                </div>
               </div>
               <div class="row card-profile-detail p-2">
-                <a><strong>Name</strong></a> <br>
-                <a>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, velit?</a> <br>
+                <a>Since: {{ contributor.date_mm_dd_yy }}</a> <br>
+                <a>{{ contributor.contribution_count }} Contributions</a> <br>
               </div>
-              <div class="row justify-content-center">
-                <a href="#" class="btn btn-sm btn-primary">View Profile</a>
+              <div class="container w-75">
+                <div class="row justify-content-center pe-2 mt-4">
+                  <a href="{% url 'profile' contributor.username %}" class="btn btn-sm btn-danger">View Profile</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        
-        <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
-          <div class="card topic-card">
-            <div class="card-body">
-              <div class="row card-profile-photo">
-                IMG
-              </div>
-              <div class="row card-profile-detail p-2">
-                <a><strong>Name</strong></a> <br>
-                <a>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, velit?</a> <br>
-              </div>
-              <div class="row justify-content-center">
-                <a href="#" class="btn btn-sm btn-primary">View Profile</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
-          <div class="card topic-card">
-            <div class="card-body">
-              <div class="row card-profile-photo">
-                IMG
-              </div>
-              <div class="row card-profile-detail p-2">
-                <a><strong>Name</strong></a> <br>
-                <a>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, velit?</a> <br>
-              </div>
-              <div class="row justify-content-center">
-                <a href="#" class="btn btn-sm btn-primary">View Profile</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        
+        {% endfor %}
 
         
       </div>
 
 
-      <div class="row justify-content-center">
+      <!-- Implement with Pagination -->
+      <!-- Only if the database is already too big -->
+      <!-- <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 mt-3 mb-3">
           <div id="what-we-cover">
             <a href="#" class="btn btn-sm btn-primary">See More</a>
           </div>
         </div>
-      </div>
+      </div> -->
       
       
     </div>

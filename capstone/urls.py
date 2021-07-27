@@ -25,3 +25,4 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL_PROFILE, document_root=settings.MEDIA_ROOT_PROFILE)
+# urlpatterns += static(f'profile/{settings.MEDIA_URL_PROFILE}', document_root=settings.MEDIA_ROOT_PROFILE)

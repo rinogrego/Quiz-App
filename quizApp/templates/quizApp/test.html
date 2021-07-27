@@ -9,7 +9,7 @@
       <div class="col-lg-8 col-md-10">
         <div class="container">
           <div class="row">
-            <h2>Timer: </h2>
+            <h2 id="timer"></h2>
           </div>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <div class="container test-questions-container">
           <div class="row">
 
-            <form action="{% url 'answer' Quiz.id Quiz.slug Participant.id %}" class="text-light" method="POST">
+            <form action="{% url 'answer' Quiz.id Quiz.slug Participant.id %}" id="test-form" class="text-light" method="POST" onsubmit="window.localStorage.removeItem('countDownValue'); localStorage.removeItem('countDownValue');">
               {% csrf_token %}
               
               {% for question in Questions %}
@@ -30,7 +30,7 @@
                 <h3>{{ question }}</h3> <br>
                 {% for option in question.options.all %}
                 <div class="form-check mt-2 ms-4 mb-3">
-                  <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input" value="{{ option.option }}"><label for="{{ option.id }}" class="form-check-label">{{ option.option }}</label>
+                  <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input test-all-input" value="{{ option.option }}"><label for="{{ option.id }}" class="form-check-label">{{ option.option }}</label>
                 </div>
                 {% endfor %}
                 <br>
@@ -94,43 +94,97 @@
 
 
 
-<!-- FINISH MODAL -->
-<a href="#" data-bs-toggle="modal" data-bs-target="#login_modal" class="btn btn-block btn-primary me-2">Login</a>
-<div class="modal fade" id="login_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Login</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success">Google</button>
-        <button type="button" class="btn btn-primary">Facebook</button>
-        <button type="button" class="btn btn-dark">GitHub</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- FINISH MODAL -->
-
-
 
 {% endblock %}
 
 
 {% block script %}
   <script src="{% static 'quizApp/test.js' %}"></script>
+  <script type="text/JavaScript">
+
+    // ============== NOT NEEDED IN THE END (django date to javascript date converter)
+    // get time start
+    // var start = "{{ Participant.time_start }}"
+    // if (start.includes("p.m.")) {
+    //   start = start.replace("p.m.", "")
+    //   split_date = start.split(", ")
+
+    //   jam_menit = split_date[2]
+    //   tahun = split_date[1]
+    //   tgl_bulan = split_date[0]
+
+    //   jam = jam_menit.split(":")[0]
+    //   menit = jam_menit.split(":")[1].replace(" ", "")
+    //   detik = "00"
+
+    //   // Convert to integer
+    //   if (parseInt(jam) != 12) {
+    //     jam = parseInt(jam) + 12
+    //     jam = String(jam)
+    //   } else {
+    //     jam = jam
+    //   }
+    // }
+    // else if (start.includes("a.m.")) {
+    //   start = start.replace("a.m.", "")
+    //   split_date = start.split(", ")
+
+    //   jam_menit = split_date[2]
+    //   tahun = split_date[1]
+    //   tgl_bulan = split_date[0]
+
+    //   jam = jam_menit.split(":")[0]
+    //   menit = jam_menit.split(":")[1].replace(" ", "")
+    //   detik = "00"
+
+    //   // Convert to integer
+    //   if (parseInt(jam) == 12) {
+    //     jam = parseInt(jam) - 12
+    //     jam = String(jam)
+    //   } else {
+    //     jam = jam
+    //   }
+    // }
+    // // Combine
+    // start = tgl_bulan + ", " + tahun + " " + jam + ":" + menit + ":" + detik
+
+    // check local storage
+    duration = localStorage.getItem('countDownValue')
+    if (duration === null) {
+      var duration = new Date().getTime()
+      duration = duration + 2*60*60*1000; // 2 hours difference between currently taking the quiz
+    }
+    
+    var x = setInterval(function() {
+
+      // Current time
+      var now = new Date().getTime();
+
+      // Distance between now and the count down date
+      var distance = duration - now;
+
+      // Calculations
+      var days = Math.floor(distance / (1000*60*60*24));
+      var hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+      var minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+      var seconds = Math.floor((distance % (1000*60)) / (1000));
+
+      // Put into html
+      document.getElementById("timer").innerHTML = "Timer: " + hours + "h " + minutes + "m " + seconds + "s ";
+      
+      // save into local storage
+      localStorage.setItem('countDownValue', duration)
+
+      // If the count down is over, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "Expired";
+        document.getElementsByClassName("test-all-input").forEach(e => {
+          e.readOnly = true;
+        })
+        window.localStorage.removeItem('countDownValue');
+        document.getElementById('test-form').submit();
+      }
+    })
+  </script>
 {% endblock %}

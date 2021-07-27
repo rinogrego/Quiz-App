@@ -82,11 +82,41 @@ def register(request):
 
 
 def profile(request, username):
+  # return HttpResponse(Quiz.objects.get(id=2).testAvg())
+  # return HttpResponse(Participant.objects.filter(quiz__id=2).aggregate(Avg('score')).values())
   user = User.objects.get(username=username)
   my_quizzes = Quiz.objects.filter(creator__username=username)
+  following_quizzes = Quiz.objects.filter(creator__in=user.follows.all())
+  topics = Topic.objects.all()
+
+  if request.method == "POST":
+    # changing profile picture
+    # return JsonResponse(request.POST, safe=False)
+    # return JsonResponse(request.FILES.get('image')==None, safe=False)
+    if request.FILES.get('image') != None:
+      img = request.FILES.get('image')
+      user.image = img
+
+    # change status
+    if request.POST.get('status') != None:
+      status = request.POST.get('status')
+      user.level = status
+
+    user.save()
+
+    # Re-Query
+    user = User.objects.get(username=username)
+
+  contributions = []
+  for topic in topics:
+    if Quiz.objects.filter(creator__username=username, topic=topic).count() != 0:
+      contributions.append((topic.title, Quiz.objects.filter(creator__username=username, topic=topic).count()))
+
   return render(request, "quizApp/profile.html", {
     "User": user,
     "myQuizzes": my_quizzes,
+    "followingQuizzes": following_quizzes,
+    "Contributions": contributions,
   })
 
 
@@ -99,8 +129,23 @@ def study(request):
 
 def topic(request, topic_id, topic_slug):
   quizzes = Quiz.objects.filter(topic__id=topic_id, topic__slug=topic_slug)
+  # Quiz.objects.filter(topic__id=topic_id, topic__slug=topic_slug, taken_by__in=Participant.objects.filter())
+
+  q = []
+  for quiz in quizzes:
+    participant = Participant.objects.filter(user=request.user, quiz=quiz).aggregate(Avg('score'))['score__avg']
+    if participant != None:
+      # if the use has attempted the quiz at least once, average the user's score
+      has_been_taken_or_score = participant
+    else:
+      # if the user hasn't made any attempt at the quiz
+      has_been_taken_or_score = False
+    q.append((quiz, has_been_taken_or_score))
+  # q = ( ( <Query Object>, has_been_taken_by_the_user_status (True/False value) ) )
+
   return render(request, "quizApp/topic.html", {
-    "Quizzes": quizzes
+    "Topic": Topic.objects.get(id=topic_id),
+    "Quizzes": q,
   })
 
 
@@ -112,11 +157,6 @@ def test(request, quiz_id, quiz_slug):
   # save participant data
   participant = Participant(user=request.user, quiz=quiz, time_start=datetime.now(), time_finished=datetime.now(), score=0)
   participant.save()
-
-  # pagination
-  # paginator = Paginator(questions, 1)
-  # page_number = request.GET.get('page', 1)
-  # page_obj = paginator.get_page(page_number) # this is a list even though only 1 question object queried
 
   # questions navigation
   questions_length = [number for number in range(1, len(questions)+1)]
@@ -145,12 +185,95 @@ def test(request, quiz_id, quiz_slug):
   })
 
 
+# def answers(request, quiz_id, quiz_slug, participant_id):
+
+#   participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
+#   quiz = Quiz.objects.get(id=quiz_id)
+#   questions = quiz.questions.all()
+
+#   questions_length = [number for number in range(1, len(questions)+1)]
+
+#   questions_for_nav = {}
+#   for number in questions_length:
+#     questions_for_nav[number] = ""
+#   for number in  range(0, len(questions)):
+#     questions_for_nav[number+1] = questions[number].id
+#   # output: questions_for_nav = {number of a question: question.id, number of a question: question.id, ...}
+  
+#   if request.method == "POST":
+
+#     # save the finished date
+#     participant.time_finished = datetime.now()
+#     participant.save()
+
+#     # delete pre-existing records
+#     ParticipantAnswer.objects.filter(participant = participant).delete()
+
+#     for number, question_id in questions_for_nav.items():
+
+#       # query the question
+#       question = Question.objects.get(id=question_id)
+#       # take the answer
+#       answer = request.POST.get(f'{question_id}')
+#       if answer == None: # answer is Null
+#         answer = ""
+#       # save it into the model
+#       data = ParticipantAnswer(participant=participant, question=question, answer=answer)
+#       data.save()
+
+#     # grading score ( I feel there is a better way to do this )
+#     grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
+
+#     # updating quiz' average score
+#     ## TURNS OUT NOT REALLY NEEDED. JUST USE METHOD OF THE MODEL
+#     # avg = Participant.objects.filter(quiz=quiz).aggregate(Avg('score')).values()
+#     # update_avg = Quiz(average_score=avg)
+#     # update_avg.save()
+    
+#     # RE-Query ParticipantAnswer after the answers has been saved and answers has been graded (scored).
+#     participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
+#     quiz = Quiz.objects.get(id=quiz_id)
+#     questions = quiz.questions.all()
+
+#   # questions_status_answers_and_options = {}
+#   # true_false = {}
+#   # answers_and_options = {}
+#   # options = []
+#   # for nomor in range(0, len(questions)):
+#   #   # return HttpResponse(questions[4].options.all()[3].option)
+#   #   for number in range(0, len(questions)):
+#   #     options.append( questions[nomor].options.all()[number].option )
+#   #   if participant.answers.all()[nomor].answer == questions[nomor].answer.all()[0].answer:
+#   #     status = True
+#   #   else:
+#   #     status = False
+#   #   answers_and_options[f"{participant.answers.all()[nomor].answer}"] = options
+#   #   true_false[status] = answers_and_options
+#   #   questions_status_answers_and_options[f"{questions[nomor]}"] = true_false
+#   #   true_false = {}
+#   #   answers_and_options = {}
+#   #   options = []
+  
+#   # for easier query about answer correctness highlighting in the template.
+#   for question in questions:
+#     question.number = participant_id
+#     question.save()
+
+#   return render(request, "quizApp/answers.html", {
+#     "Participant": participant,
+#     "Quiz": quiz,
+#     "Questions": questions,
+#     "Questions_Length": questions_for_nav,
+#     # "Questions_Status_Answers_and_Options": questions_status_answers_and_options,
+#   })
+
+
 def answers(request, quiz_id, quiz_slug, participant_id):
 
-  participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
-  quiz = Quiz.objects.get(id=quiz_id)
+  participant = Participant.objects.get(id=participant_id)
+  quiz = Quiz.objects.get(id=quiz_id, taken_by__id=participant_id)
   questions = quiz.questions.all()
-
+  
   questions_length = [number for number in range(1, len(questions)+1)]
 
   questions_for_nav = {}
@@ -158,11 +281,9 @@ def answers(request, quiz_id, quiz_slug, participant_id):
     questions_for_nav[number] = ""
   for number in  range(0, len(questions)):
     questions_for_nav[number+1] = questions[number].id
-  # output: questions_for_nav = {number of a question: question.id, number of a question: question.id, ...}
-  
-  if request.method == "POST":
 
-    # save the finished date
+  if request.method == "POST":
+    
     participant.time_finished = datetime.now()
     participant.save()
 
@@ -181,44 +302,24 @@ def answers(request, quiz_id, quiz_slug, participant_id):
       data = ParticipantAnswer(participant=participant, question=question, answer=answer)
       data.save()
 
-    # grading score ( I feel there is a better way to do this )
     grading(request=request, participation_id = participant.id, questions=questions, participant_answers=participant.answers.all() )
-    
+
     # RE-Query ParticipantAnswer after the answers has been saved and answers has been graded (scored).
-    participant = Participant.objects.get(id=participant_id, user=request.user, quiz__id=quiz_id)
-    quiz = Quiz.objects.get(id=quiz_id)
+    participant = Participant.objects.get(id=participant_id)
+    quiz = Quiz.objects.get(id=quiz_id, taken_by__id=participant_id)
     questions = quiz.questions.all()
 
-  # questions_status_answers_and_options = {}
-  # true_false = {}
-  # answers_and_options = {}
-  # options = []
-  # for nomor in range(0, len(questions)):
-  #   # return HttpResponse(questions[4].options.all()[3].option)
-  #   for number in range(0, len(questions)):
-  #     options.append( questions[nomor].options.all()[number].option )
-  #   if participant.answers.all()[nomor].answer == questions[nomor].answer.all()[0].answer:
-  #     status = True
-  #   else:
-  #     status = False
-  #   answers_and_options[f"{participant.answers.all()[nomor].answer}"] = options
-  #   true_false[status] = answers_and_options
-  #   questions_status_answers_and_options[f"{questions[nomor]}"] = true_false
-  #   true_false = {}
-  #   answers_and_options = {}
-  #   options = []
   
-  # for easier query about answer correctness highlighting in the template.
-  for question in questions:
-    question.number = participant_id
-    question.save()
+  data_q = []
+  for number in questions_length:
+    # print(number);
+    data_q.append((number, questions[number-1]))
 
   return render(request, "quizApp/answers.html", {
-    "Participant": participant,
     "Quiz": quiz,
-    "Questions": questions,
+    "Participant": participant,
+    "Questions": data_q,
     "Questions_Length": questions_for_nav,
-    # "Questions_Status_Answers_and_Options": questions_status_answers_and_options,
   })
 
 
@@ -234,17 +335,20 @@ def make_quiz(request, username):
 
   if request.method == "POST":
 
+    # return JsonResponse((request.POST), safe=False)
+
     # save the quiz data
     title = request.POST.get('title')
     if title == "" or title == None:
       return HttpResponse('error Title Not Defined')
     topic = request.POST.get('topic')
+    topic = Topic.objects.get(title=topic)
     slug = title.replace(' ', '-')
-    quiz = Quiz(slug=slug, title=title, creator=request.user, topic__title=topic)
+    quiz = Quiz(slug=slug, title=title, creator=request.user, topic=topic)
     quiz.save()
 
     # save the question data
-    number_of_questions = request.POST.get('num')
+    number_of_questions = int(request.POST.get('num'))
     for number in range(1, number_of_questions+1):
       question = request.POST.get(f'q-{number}')
       q = Question(quiz=quiz, question=question)
@@ -261,29 +365,13 @@ def make_quiz(request, username):
       # save the answer data
       answer = request.POST.get(f'q-{number}-answer')
       a = Answer(question=q, answer=answer)
+      a.save()
 
     return HttpResponse('Quiz created successfully!')
 
   return render(request, "quizApp/make_quiz.html", {
     "Topics": topics,
   })
-
-
-# this one may be omitted because my_quiz may be a one page with profile
-# def my_quiz(request, user_id):
-
-#   quizzes = Quiz.objects.get(creator=request.user).all()
-#   return render(request, "quizApp/my_quiz.html", {
-#     "Quizzes": quizzes,
-#   })
-
-
-
-
-
-
-
-
 
 
 

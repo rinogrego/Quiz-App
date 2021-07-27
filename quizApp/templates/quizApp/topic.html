@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-lg-8 col-md-8 col-sm-7 col-6">
         <div class="main-banner-content">
-          <h1>Calculus 1</h1>
+          <h1>{{ Topic.title }}</h1>
         </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-5 col-6 d-flex align-items-center justify-content-center">
@@ -16,7 +16,7 @@
           <form>
             <div class="input-group">
               <input type="search" class="form-control form-control-sm" placeholder="Search Topic" aria-label="Search Topic" aria-describedby="button-addon2">
-              <button class="btn btn-info" type="submit">
+              <button class="btn btn-info btn-danger text-dark border border-danger" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>
@@ -37,33 +37,23 @@
         <div class="container">
           <div class="row">
 
-            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
+            {% for quiz, has_been_taken_or_score in Quizzes %}
+            <div class="col-lg-4 col-md-4 col-6 p-2 mt-2">
               <div class="card topic-topic-card">
                 <div class="topic-topic-title">
-                  <h3 class="d-flex justify-content-center align-items-center h-100">Introduction to Derivatives and Integrals</h3>
+                  <h3 class="d-flex justify-content-center align-items-center h-100">{{ quiz.title }}</h3>
                 </div>
-                <a class="card-text topic-card-text mt-1">Calculus 1</a>
-                <a class="card-text topic-card-text">Gregorino Al Josan</a>
-                <h4 class="card-text text-success mt-1">78</h4>
+                <a class="card-text topic-card-text mt-1">{{ quiz.topic }}</a>
+                <a class="card-text topic-card-text">By: {{ quiz.creator.username }}</a>
+                {% if has_been_taken_or_score != False %}
+                  <h4 class="card-text text-danger mt-1">{{ has_been_taken_or_score | floatformat:2 }}</h4>
+                {% endif %}
                 <div class="row topic-view-topic-btn">
-                  <a href="" class="btn btn-sm btn-danger">Start</a>
+                  <a href="{% url 'test' quiz.id quiz.slug %}" class="btn btn-sm btn-danger">Start</a>
                 </div>
               </div>
             </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
-              <div class="card topic-topic-card">
-                <div class="topic-topic-title">
-                  <h3 class="d-flex justify-content-center align-items-center h-100">Introduction to Limits</h3>
-                </div>
-                <a class="card-text topic-card-text mt-1">Calculus 1</a>
-                <a class="card-text topic-card-text">Gregorino Al Josan</a>
-                <h4 class="card-text text-danger mt-1">62</h4>
-                <div class="row topic-view-topic-btn">
-                  <a href="" class="btn btn-sm btn-danger">Start</a>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
 
           </div>
         </div>
