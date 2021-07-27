@@ -89,7 +89,11 @@
 
   {% empty %}
 
-  <p class="display-6 mt-4 pt-4 d-flex justify-content-center">You haven't made any quizzes yet.</p>
+  {% if request.user.username == User.username %}
+    <p class="display-6 mt-4 pt-4 d-flex justify-content-center">You haven't made any quizzes yet.</p>
+  {% else %}
+    <p class="display-6 mt-4 pt-4 d-flex justify-content-center">This account haven't made any quizzes yet.</p>
+  {% endif %}
   
   {% endfor %}
   </div>

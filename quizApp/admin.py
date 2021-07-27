@@ -1,8 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, Topic, Quiz, Question, Option, Answer, Participant, ParticipantAnswer
-
+from .models import User, Topic, Quiz, Question, Option, Answer, Participant, ParticipantAnswer, ErrorMessage
 
 
 
@@ -80,6 +79,9 @@ class ParticipantAdmin(admin.ModelAdmin):
     ParticipantAnswerInline
   ]
 
+class ErrorMessageAdmin(admin.ModelAdmin):
+  list_display = ("id", "email", "message")
+
 
 
 admin.site.register(User, UserAdmin)
@@ -90,4 +92,5 @@ admin.site.register(Option, OptionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(ParticipantAnswer, ParticipantAnswerAdmin)
+admin.site.register(ErrorMessage, ErrorMessageAdmin)
 

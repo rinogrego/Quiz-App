@@ -85,7 +85,8 @@
               <div class="col-lg-6 col-md-6 pt-4">
                 <aside class="footer-widget">
                   <h4>Found an Error? Let me know it!</h4> <br>
-                  <form action="{$ url 'index' %}" method="POST" class="form-group">
+                  <form action="{% url 'index' %}" method="POST" class="form-group">
+                    {% csrf_token %}
                     <div class="mb-3">
                       <input type="text" id="error-email" placeholder="Email" class="form-control-md form-control" name="email">
                     </div>
