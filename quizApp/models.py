@@ -249,3 +249,11 @@ class ParticipantAnswer(models.Model):
 
   def __str__(self):
       return self.answer
+
+
+class ErrorMessage(models.Model):
+  message = models.CharField(max_length=500, null=True, blank=True)
+  email = models.EmailField()
+
+  def __str__(self):
+    return f'{self.email} said: "{self.message}"'

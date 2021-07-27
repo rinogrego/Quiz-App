@@ -1,4 +1,5 @@
 from random import shuffle
+from django.db.utils import Error
 from django.http import HttpRequest, HttpResponseRedirect
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -10,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import Avg
 
-from .models import Answer, User, Quiz, Question, Topic, Participant, ParticipantAnswer, Option
+from .models import Answer, User, Quiz, Question, Topic, Participant, ParticipantAnswer, Option, ErrorMessage
 import json
 from random import shuffle
 from .utils import grading
@@ -19,6 +20,13 @@ from datetime import datetime
 
 
 def index(request):
+
+  if request.method == "POST":
+    # error message from users
+    message = request.POST.get('message')
+    email = request.POST.get('email')
+    errM = ErrorMessage(message=message, email=email)
+    errM.save()
 
   topics = Topic.objects.all()
   contributors = [user for user in User.objects.all() if user.has_contribution()]
@@ -387,8 +395,8 @@ def make_quiz(request, username):
       answer = request.POST.get(f'q-{number}-answer')
       a = Answer(question=q, answer=answer)
       a.save()
-
-    return HttpResponse('Quiz created successfully!')
+      
+      return HttpResponseRedirect(reverse('topic', args=[topic.id, topic.slug]))
 
   return render(request, "quizApp/make_quiz.html", {
     "Topics": topics,
