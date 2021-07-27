@@ -44,7 +44,7 @@ How to run the application:
 2. Go into the directory where manage.py exists.
 3. Go into the command line of that directory.
 4. Run 'python manage.py runserver'
-5. Go to 'http://127.0.0.1:8000'
+5. Go to any browser and go to 'http://127.0.0.1:8000' (this lead to index.html)
 
 Additional information: 
 When the quiz is underway, DO NOT REFRESH THE PAGE. The logic I implemented for Participant models is to create a new record for Participant (hence, new id) every time the test.html is accessed. So it will multiple the Participant data for how much refreshing the page is done. Other than filling the database with unnecessary data, it will also cause the average score to skew so bad because the default score for a new Participant record is 0 until the test is submitted and the grading started (in the test function in views.py).
