@@ -43,7 +43,7 @@ function generate_questions() {
     // i = number of questions
     const question_container = document.createElement('div');
     question_container.setAttribute('id', `question-${i}-container`);
-    question_container.setAttribute('class', `border-top border-danger pb-2 mt-3`);
+    question_container.setAttribute('class', `border-top border-dark pb-2 mt-3`);
     questions_button_container.appendChild(question_container);
 
 
@@ -54,7 +54,7 @@ function generate_questions() {
 
       const question_label = document.createElement('label');
       question_label.setAttribute(`for`, `q-${i}`);
-      question_label.setAttribute(`class`, `form-label make-a-quiz-quesion-q-label bg-dark p-2`);
+      question_label.setAttribute(`class`, `form-label make-a-quiz-quesion-q-label bg-light p-2 border-dark`);
       question_label.innerHTML = `Question ${i}:`;
       question_q_container.appendChild(question_label);
 
@@ -63,7 +63,7 @@ function generate_questions() {
       question_input.setAttribute('name', `q-${i}`);
       question_input.setAttribute('id', `q-${i}`);
       question_input.setAttribute('placeholder', `Input your question here`);
-      question_input.setAttribute('class', `form-control bg-dark text-light border-custom-121212`);
+      question_input.setAttribute('class', `form-control bg-light text-dark border-custom-121212`);
       question_q_container.appendChild(question_input);
     // Question Q
 
@@ -89,7 +89,7 @@ function generate_questions() {
         option_input.setAttribute('name', `q-${i}-opt-${j}`);
         option_input.setAttribute('id', `q-${i}-opt-${j}`);
         option_input.setAttribute('placeholder', `Input your option here`);
-        option_input.setAttribute('class', `form-control bg-dark text-light border-custom-121212`);
+        option_input.setAttribute('class', `form-control bg-light text-dark border-custom-121212`);
         option_input.setAttribute('onfocusout', `fillOption(this);`);
 
         option_container.appendChild(option_label);
@@ -109,7 +109,7 @@ function generate_questions() {
     const answer_select = document.createElement('select');
     answer_select.setAttribute('name', `q-${i}-answer`);
     answer_select.setAttribute('id', `q-${i}-answer`);
-    answer_select.setAttribute('class', `form-select mb-3 bg-dark text-light border-custom-121212`);
+    answer_select.setAttribute('class', `form-select mb-3 bg-light text-dark border-custom-121212`);
     question_container.appendChild(answer_select);
     // Answer
 
@@ -150,7 +150,7 @@ function generate_questions() {
 
     // With Modal
     const button_modal = document.createElement('div');
-    button_modal.setAttribute(`class`, `btn btn-dark mt-5 border-custom-121212`);
+    button_modal.setAttribute(`class`, `btn btn-primary mt-5`);
     button_modal.setAttribute('data-bs-toggle', 'modal');
     button_modal.setAttribute('data-bs-target', '#finish_create_modal');
     button_modal.innerHTML = "Submit New Quiz"

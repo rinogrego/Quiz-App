@@ -16,7 +16,7 @@
           <form>
             <div class="input-group">
               <input type="search" class="form-control form-control-sm" placeholder="Search Topic" aria-label="Search Topic" aria-describedby="button-addon2">
-              <button class="btn btn-info btn-dark text-danger border border-dark" type="submit">
+              <button class="btn btn-info text-dark border border-info" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>
@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<section class="topic-topic mt-4 mb-4 text-danger">
+<section class="topic-topic mt-4 mb-4 text-light">
   <div class="container">
     <div class="row">
       <div class="col-lg-1 col-md-1"></div>
@@ -46,15 +46,15 @@
                 <a class="card-text topic-card-text mt-1">{{ quiz.topic }}</a>
                 <a class="card-text topic-card-text" href="{% url 'profile' quiz.creator.username %}">By: {{ quiz.creator.username }}</a>
                 {% if has_been_taken_or_score != False %}
-                  <h4 class="card-text text-danger mt-1">{{ has_been_taken_or_score | floatformat:2 }}</h4>
+                  <h4 class="card-text text-light mt-1">{{ has_been_taken_or_score | floatformat:2 }}</h4>
                 {% endif %}
                 <div class="row topic-view-topic-btn">
-                  <a href="{% url 'test' quiz.id quiz.slug %}" class="btn btn-sm btn-danger">Start</a>
+                  <a href="{% url 'test' quiz.id quiz.slug %}" class="btn btn-sm btn-warning">Start</a>
                 </div>
               </div>
             </div>
             {% empty %}
-            <div class="container">
+            <div class="container text-info">
               <div class="row p-5">
                 <h2>There is no quiz with this topic yet.</h2>
               </div>

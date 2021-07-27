@@ -2,13 +2,13 @@
 
 {% block body %}
 
-<div class="main-profile-container bg-dark">
-  <div class="container bg-danger h-100">
+<div class="main-profile-container bg-info">
+  <div class="container bg-primary h-100 text-light">
     <div class="row h-100">
       <div class="col-lg-4 col-md-4 col-sm-5 col-5 d-flex align-items-center">
         <div class="container d-flex justify-content-center">
           <a href="#" >
-            <img src="/{{ User.image }}" alt="{{ User.image }}" height="160" width="140" data-bs-toggle="modal" data-bs-target="#change_profile_pic_modal" class="img-fluid rounded-circle mt-1 border-dark border bg-light">
+            <img src="/{{ User.image }}" alt="{{ User.image }}" height="160" width="140" data-bs-toggle="modal" data-bs-target="#change_profile_pic_modal" class="img-fluid rounded-circle mt-1 border-primary border bg-primary">
           </a>
         </div>
       </div>
@@ -19,11 +19,11 @@
           {% else %}
             {% if Follow_status %}
             <div class="btn btn-sm btn-custom-121212 d-flex justify-content-center align-items-center ms-4" style="width: 15%;">
-              <a href="{% url 'follow' User.username %}"  class="rounded-pill border p-1 border-dark" id="profile-unfollow">Unfollow</a>
+              <a href="{% url 'follow' User.username %}"  class="rounded-pill border p-1 border-warning" id="profile-unfollow">Unfollow</a>
             </div>
             {% else %}
             <div class="btn btn-sm btn-custom-121212 d-flex justify-content-center align-items-center ms-4" style="width: 15%;">
-              <a href="{% url 'follow' User.username %}" class="rounded-pill border p-1 border-dark" id="profile-follow">Follow</a>
+              <a href="{% url 'follow' User.username %}" class="rounded-pill border p-1 border-warning" id="profile-follow">Follow</a>
             </div>
             {% endif %}
           {% endif %}
@@ -60,7 +60,7 @@
     <div class="col-lg-3 col-md-2 col-sm-1"></div>
     <div class="col-lg-6 col-md-8 col-sm-10">
       Feels like to make a new quiz? &nbsp;
-      <a href="{% url 'make_quiz' request.user.username %}"> <span> <div class="btn btn-dark">Make a New Quiz</div> </span> </a>
+      <a href="{% url 'make_quiz' request.user.username %}"> <span> <div class="btn btn-warning">Make a New Quiz</div> </span> </a>
     </div>
     <div class="col-lg-3 col-md-2 col-sm-1"></div>
   </div>
@@ -71,9 +71,9 @@
   <div class="container">
     <div class="row mb-4">
     <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
-    <div class="col-lg-10 col-md-10 col-sm-10 profile-content bg-dark" style="text-align: center;">
+    <div class="col-lg-10 col-md-10 col-sm-10 profile-content bg-primary" style="text-align: center;">
       <a href="{% url 'test' quiz.id quiz.slug %}" class="profile-quiz-container-anchor">
-      <div class="row text-danger">
+      <div class="row text-light">
         <div class="col-lg-9 col-md-9 col-sm-9">
           <div class="row profile-content-judul p-2 display-custom ps-4">{{ quiz.title }}</div>
           <div class="row profile-content-topic p-2 display-custom ps-4">{{ quiz.topic.title }}</div>
@@ -106,9 +106,9 @@
     <div class="container">
       <div class="row mb-4">
         <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: center;"></div>
-        <div class="col-lg-10 col-md-10 col-sm-10 profile-content bg-dark" style="text-align: center;">
+        <div class="col-lg-10 col-md-10 col-sm-10 profile-content bg-primary" style="text-align: center;">
           <a href="{% url 'test' quiz.id quiz.slug %}" class="profile-quiz-container-anchor">
-          <div class="row text-danger">
+          <div class="row text-light">
             <div class="col-lg-9 col-md-9 col-sm-9">
               <div class="row profile-content-judul p-2 display-custom ps-4">{{ quiz.title }}</div>
               <div class="row profile-content-topic p-2 display-custom ps-4">{{ quiz.topic.title }}</div>
@@ -134,19 +134,19 @@
 
 
 <!-- Data -->
-<section class="data mt-5 text-danger mb-5">
+<section class="data mt-5 text-light mb-5">
   <div class="row profile-data-container" style="display: none;">
     <div class="col-lg-1 col-md-1"></div>
     <div class="col-lg-10 col-md-10">
       <div class="container">
-        <div class="row border border-3 mt-3 border-dark p-3">
+        <div class="row border border-3 mt-3 border-info p-3 bg-primary">
           <div class="col-lg-4 col-md-4 col-sm-4 col-6 p-3">
             <div class="container">
               <div class="row justify-content-center">CONTRIBUTION</div>
               <div class="row mt-2 ps-3">
                 <ul class="list-group">
                   {% for title, count in Contributions %}
-                    <li class="list-group-item bg-custom-121212 p-2 text-danger">{{ title }} ({{ count }})</li>
+                    <li class="list-group-item p-2 text-light bg-primary border border-primary">{{ title }} ({{ count }})</li>
                   {% empty %}
                       {{ User.username }} hasn't made any contribution to any topic.
                   {% endfor %}
@@ -154,7 +154,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-6 border-start border-end p-3 border-secondary">
+          <div class="col-lg-4 col-md-4 col-sm-4 col-6 border-start border-end p-3 border-info">
             <div class="container">
               <div class="row justify-content-center">PARTICIPATION</div>
               <div class="row justify-content-center mt-2 display-5 p-3">{{ User.quizzes_taken.count }}</div>
