@@ -10,7 +10,7 @@ The features included in this project, other than its main functions which is fr
 ## Distinctiveness and Complexity 
 #### There is not a chat feature in this project. Therefore I am certain it can't be categorized as social network project.
 #### This project is also not a commercial site, because the main functions of this project requires a completely different set of logics in the views and models compared to the commercial project.
-##### Note: Though admittedly, there are some simple logics/functions here that derived from those projects such as handling image and the following system. But I take it as a learning resources/references rather than straight up copy.
+####### Though admittedly, there are some simple logics/functions here that derived from those projects such as handling image and the following system. But I take it as a learning resources/references rather than straight up copy.
 
 #### This project utilizes django (plain and obvious) and javascript to manipulate some things such as when a user wanted to create a new quiz, they will be asked to input how many questions they want. There is also timer feature implemented by javascript.
 
