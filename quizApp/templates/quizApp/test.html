@@ -25,9 +25,9 @@
             <form action="{% url 'answer' Quiz.id Quiz.slug Participant.id %}" id="test-form" class="text-custom-121212" method="POST" onsubmit="window.localStorage.removeItem('countDownValue'); localStorage.removeItem('countDownValue');">
               {% csrf_token %}
               
-              {% for question in Questions %}
+              {% for number, question in Questions %}
               <div class="container test-container-for-questions" id="container-question-{{ question.id }}">
-                <h2>{{ question }}</h2> <br>
+                <h2>{{ number }}. {{ question }}</h2> <br>
                 {% for option in question.options.all %}
                 <div class="form-check mt-2 ms-4 mb-3">
                   <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input test-all-input" value="{{ option.option }}"><label for="{{ option.id }}" class="form-check-label">

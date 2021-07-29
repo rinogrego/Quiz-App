@@ -10,6 +10,8 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import Avg
+from django.db.models.aggregates import Count
+from django.db.models.expressions import F
 
 from .models import Answer, User, Quiz, Question, Topic, Participant, ParticipantAnswer, Option, ErrorMessage
 import json
@@ -28,11 +30,20 @@ def index(request):
     errM = ErrorMessage(message=message, email=email)
     errM.save()
 
-  topics = Topic.objects.all()
-  contributors = [user for user in User.objects.all() if user.has_contribution()]
+  topics = Topic.objects.annotate(fieldsum = Count('quizzes')).order_by('-fieldsum').all()
+  # output: queryset of topics but may not giving a list with each topic unique with each other. So not distinct yet
+
+  unique_topics = [topics[0]]
+  for topic in topics:
+    # if topic.id is not in a list of unique_topics, differentiated by their ids.
+    if topic.id not in [topic.id for topic in unique_topics] and len(unique_topics) <= 8:
+      unique_topics.append(topic)
+
+  contributors = [user for user in User.objects.annotate(contrib_count = Count('quizzes')).order_by('-contrib_count') if user.has_contribution()]
+
   return render(request, "quizApp/index.html", {
-    "Topics": topics,
-    "Contributors": contributors,
+    "Topics": unique_topics[0:8],
+    "Contributors": contributors[0:6],
   })
   # return HttpResponse('Start of Quiz App')
 
@@ -89,6 +100,7 @@ def register(request):
       return render(request, "quizApp/register.html")
 
 
+@login_required(login_url='login')
 def profile(request, username):
   # return HttpResponse(Quiz.objects.get(id=2).testAvg())
   # return HttpResponse(Participant.objects.filter(quiz__id=2).aggregate(Avg('score')).values())
@@ -136,6 +148,7 @@ def profile(request, username):
   })
 
 
+@login_required(login_url='login')
 def follow(request, username):
   account = User.objects.get(username=username)
   try:
@@ -149,15 +162,28 @@ def follow(request, username):
   return HttpResponseRedirect(reverse('profile', args=[username]))
 
 
+@login_required(login_url='login')
 def study(request):
-  topics = Topic.objects.all()
+  
+  topics = Topic.objects.all().order_by('title').all()
+  # print(request.GET.get('study-search'))
+  if request.method == "GET" and request.GET.get('study-search') != None:
+    search = request.GET.get('study-search')
+    search_topic = []
+    for topic in topics:
+      # print(f'check whether {search} is in {topic.title.lower()}')
+      if search.lower() in topic.title.lower():
+        search_topic.append(topic)
+    topics = search_topic
+
   return render(request, "quizApp/study.html", {
     "Topics": topics
   })
 
 
+@login_required(login_url='login')
 def topic(request, topic_id, topic_slug):
-  quizzes = Quiz.objects.filter(topic__id=topic_id, topic__slug=topic_slug)
+  quizzes = Quiz.objects.filter(topic__id=topic_id, topic__slug=topic_slug).order_by('-date').all()
   # Quiz.objects.filter(topic__id=topic_id, topic__slug=topic_slug, taken_by__in=Participant.objects.filter())
 
   q = []
@@ -172,12 +198,22 @@ def topic(request, topic_id, topic_slug):
     q.append((quiz, has_been_taken_or_score))
   # q = ( ( <Query Object>, has_been_taken_by_the_user_status (True/False value) ) )
 
+  if request.GET.get('search-quiz') != None:
+    search = request.GET.get('search-quiz')
+    search_result = []
+    for query_obj, status in q:
+      if search.lower() in query_obj.title.lower():
+        search_result.append((query_obj, status))
+    q = search_result
+    print(q)
+
   return render(request, "quizApp/topic.html", {
     "Topic": Topic.objects.get(id=topic_id),
     "Quizzes": q,
   })
 
 
+@login_required(login_url='login')
 def test(request, quiz_id, quiz_slug):
 
   quiz = Quiz.objects.get(id=quiz_id, slug=quiz_slug)
@@ -205,11 +241,16 @@ def test(request, quiz_id, quiz_slug):
   #             etc...
   # }
 
+  data_q = []
+  for number in questions_length:
+    # print(number);
+    data_q.append((number, questions[number-1]))
+
   return render(request, "quizApp/test.html", {
     "Quiz": quiz,
     "Participant": participant,
     # "Questions": page_obj,
-    "Questions": questions,
+    "Questions": data_q,
     "Questions_Length": questions_for_nav,
   })
 
@@ -297,6 +338,7 @@ def test(request, quiz_id, quiz_slug):
 #   })
 
 
+@login_required(login_url='login')
 def answers(request, quiz_id, quiz_slug, participant_id):
 
   participant = Participant.objects.get(id=participant_id)
@@ -352,6 +394,7 @@ def answers(request, quiz_id, quiz_slug, participant_id):
   })
 
 
+@login_required(login_url='login')
 def make_quiz(request, username):
 
   # query Topics

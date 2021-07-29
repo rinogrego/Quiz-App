@@ -7,9 +7,13 @@
     <div class="row h-100">
       <div class="col-lg-4 col-md-4 col-sm-5 col-5 d-flex align-items-center">
         <div class="container d-flex justify-content-center">
+          {% if request.user.username == User.username %}
           <a href="#" >
             <img src="/{{ User.image }}" alt="{{ User.image }}" height="160" width="140" data-bs-toggle="modal" data-bs-target="#change_profile_pic_modal" class="img-fluid rounded-circle mt-1 border-primary border bg-primary">
           </a>
+          {% else %}
+          <img src="/{{ User.image }}" alt="{{ User.image }}" height="160" width="140" data-bs-toggle="modal" data-bs-target="#change_profile_pic_modal" class="img-fluid rounded-circle mt-1 border-primary border bg-primary">
+          {% endif %}
         </div>
       </div>
       <div class="col-lg-8 col-md-8 col-sm-7 col-7 pt-4 ps-4">
@@ -114,7 +118,7 @@
               <div class="row profile-content-topic p-2 display-custom ps-4">{{ quiz.topic.title }}</div>
               <div class="row profile-content-participant p-2 display-custom ps-4">Participant: {{ quiz.taken_by.count }}</div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 profile-content-avgscr d-flex justify-content-center align-items-center">{{ quiz.average_score }}</div>
+            <div class="col-lg-3 col-md-3 col-sm-3 profile-content-avgscr d-flex justify-content-center align-items-center">{{ quiz.average_score | floatformat:2 }}</div>
           </div>
           </a>
         </div>
