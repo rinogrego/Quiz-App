@@ -59,11 +59,11 @@
 
 <!--  I THINK THIS SOULD BE A JAVASCRIPT, OR USE TOGGLE DISPLAY=HIDDEN/BLOCK TRICK  -->
 
-<div class="container mt-4 profile-section">
+<div class="container mt-4 profile-section text-dark">
   <div class="row mb-5">
     <div class="col-lg-3 col-md-2 col-sm-1"></div>
-    <div class="col-lg-6 col-md-8 col-sm-10">
-      Feels like to make a new quiz? &nbsp;
+    <div class="col-lg-6 col-md-8 col-sm-10" style="text-align: center;";>
+      Feels like to make a new quiz? &nbsp;<br>
       <a href="{% url 'make_quiz' request.user.username %}"> <span> <div class="btn btn-warning">Make a New Quiz</div> </span> </a>
     </div>
     <div class="col-lg-3 col-md-2 col-sm-1"></div>
