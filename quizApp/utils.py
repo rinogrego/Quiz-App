@@ -1,9 +1,6 @@
 from quizApp.models import Participant
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
-import matplotlib as mpl
-import numpy as np
-import pandas as pd
 
 
 
