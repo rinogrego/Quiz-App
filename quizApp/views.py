@@ -162,12 +162,17 @@ def topic(request, topic_id, topic_slug):
 
   q = []
   for quiz in quizzes:
-    participant = Participant.objects.filter(user=request.user, quiz=quiz).aggregate(Avg('score'))['score__avg']
-    if participant != None:
-      # if the use has attempted the quiz at least once, average the user's score
-      has_been_taken_or_score = participant
+    if request.user.is_authenticated:
+      # authenticated user
+      participant = Participant.objects.filter(user=request.user, quiz=quiz).aggregate(Avg('score'))['score__avg']
+      if participant != None:
+        # if the use has attempted the quiz at least once, average the user's score
+        has_been_taken_or_score = participant
+      else:
+        # if the user hasn't made any attempt at the quiz
+        has_been_taken_or_score = False
     else:
-      # if the user hasn't made any attempt at the quiz
+      # anonymous user
       has_been_taken_or_score = False
     q.append((quiz, has_been_taken_or_score))
   # q = ( ( <Query Object>, has_been_taken_by_the_user_status (True/False value) ) )
