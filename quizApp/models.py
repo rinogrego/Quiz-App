@@ -1,10 +1,6 @@
-from typing import AbstractSet
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models.expressions import Random
-from django.db.models.fields import related
 from django.db.models import Avg
-from datetime import datetime
 
 # Create your models here.
 
