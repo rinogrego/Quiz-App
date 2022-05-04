@@ -17,7 +17,7 @@
         </div>
         <div class="col-lg-4 col-md-4 d-flex align-items-center justify-content-center">
           <div class="row">
-            <a href="{% url 'study' %}" class="btn btn-dark btn-lg">Quiz Now!</a>
+            <a href="{% url 'study' %}" class="btn btn-info btn-lg">Quiz Now!</a>
           </div>
         </div>
       </div>
@@ -39,17 +39,17 @@
         
         {% for topic in Topics %}
         <div class="col-lg-3 col-md-4 col-6 mt-3">
-          <div class="card topic-card h-100 bg-dark text-light">
+          <div class="card topic-card h-100 bg-primary text-light">
             <div class="card-body">
               <h3 class="card-title">{{ topic.title }}</h3>
             </div>
             <div class="container">
               <a class="card-text index-card-text text-light"><strong>{{ topic.quizzes.count }} Quizzes</strong></a> <br>
-              <p class="card-text index-card-text"><strong>{{ topic.participant }} Participants / Attempts</strong></p> <br>
+              <p class="card-text index-card-text"><strong>{{ topic.participant }} Participants</strong></p> <br>
             </div>
             <div class="container mb-3 w-75">
               <div class="row justify-content-center">
-                <a href="{% url 'topic' topic.id topic.slug %}" class="btn btn-sm btn-danger align-items-end">View Topic</a>
+                <a href="{% url 'topic' topic.id topic.slug %}" class="btn btn-sm btn-warning align-items-end">View Topic</a>
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@
   </section>
 
 
-  <section class="contributor bg-dark">
+  <section class="contributor bg-primary">
     <div class="container">
 
       <div class="row justify-content-center">
@@ -88,13 +88,13 @@
         {% for contributor in Contributors %}
         <div class=" col-md-4 col-6 mt-3 mb-5">
           <div class="card topic-card border border-secondary h-100">
-            <div class="card-body bg-custom-121212 text-light">
+            <div class="card-body bg-info text-dark">
               <div class="row card-profile-photo">
                 <div class="col-3 d-flex justify-content-center align-items-center">
                   <img src="{{ contributor.image }}" alt="{{ contributor.username }}" class="img-fluid" > <br>
                 </div>
                 <div class="col-9">
-                  <a><strong>{{ contributor.username }}</strong></a> <br>
+                  <a id="index-contributor-name"><strong>{{ contributor.username }}</strong></a> <br>
                   <a><strong>{{ contributor.get_level_display }}</strong></a> <br>
                 </div>
               </div>
@@ -102,11 +102,13 @@
                 <a>Since: {{ contributor.date_mm_dd_yy }}</a> <br>
                 <a>{{ contributor.contribution_count }} Contributions</a> <br>
               </div>
+              {% if request.user.is_authenticated %}
               <div class="container w-75">
                 <div class="row justify-content-center pe-2 mt-4">
-                  <a href="{% url 'profile' contributor.username %}" class="btn btn-sm btn-danger">View Profile</a>
+                  <a href="{% url 'profile' contributor.username %}" class="btn btn-sm btn-warning">View Profile</a>
                 </div>
               </div>
+              {% endif %}
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 body {
-  background-color: #121212;
+  background-color: #fbfbfb;
   overflow-x: hidden;
 }
 
@@ -29,7 +29,7 @@ body {
 
 #what-we-cover {
   text-align: center;
-  color: white;
+  color: #0d6efd;
 }
 
 .card-creator, .card-date {
@@ -87,7 +87,14 @@ body {
   border-bottom: 1px solid black;
 }
 
+#index-contributor-name {
+  color: black;
+  text-decoration-line: none;
+}
 
+#index-contributor-name:hover {
+  color: #0d6efd;
+}
 
 
 
@@ -162,19 +169,17 @@ body {
 
 
 .btn-profile {
-  background-color: #121212;
-  border: 1px solid #121212;
-  border-radius: 5px 5px 0px 0px;
-  color: white;
+  background-color: #fbfbfb;
+  color: #121212;
 }
 
 .btn-profile:hover, .btn-profile:focus {
-  background-color: black;
-  color: white;
+  background-color: cyan;
+  color: #121212;
 }
 
 .btn-profile:hover {
-  border-bottom-color: black;
+  border-bottom-color: #0d6efd;
 }
 
 .profile-section {
@@ -276,7 +281,7 @@ footer {
 .study-topic-card {
   height: 250px;
   padding: 15px 0px;
-  background-color: black;
+  background-color: #0d6efd;
 }
 
 .study-topic-title {
@@ -312,11 +317,12 @@ footer {
 .topic-topic-card {
   height: 250px;
   padding: 15px 0px;
-  background-color: black;
+  background-color: #0d6efd;
 }
 
 .topic-topic-card a {
   text-decoration-line: none;
+  color: #121212;
 }
 
 .topic-topic-card a:hover {
@@ -348,8 +354,8 @@ footer {
 /* test.html */
 
 .test-questions-navigation-box {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
   height: 30px; 
   width: 30px; 
   font-size: 14px;
@@ -358,11 +364,11 @@ footer {
 
 .test-questions-navigation-box>a {
   text-decoration-line: none;
-  color: white;
+  color: black;
 }
 
 .test-questions-navigation-box:hover {
-  background-color: red;
+  background-color: #0d6efd;
   cursor: pointer;
 }
 
@@ -376,7 +382,7 @@ footer {
 /* answers.html */
 
 .answers-radio-correct {
-  background-color: lightgreen;
+  background-color: darkgreen;
 }
 
 .answers-radio-incorrect {
@@ -388,6 +394,7 @@ footer {
 
 .make-a-quiz-quesion-q-label {
   border-radius: 10px;
+  border: 1px solid black
 }
 
 .border-custom-121212 {

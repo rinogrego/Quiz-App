@@ -3,8 +3,8 @@
 
 {% block body %}
 
-<section class="test text-dark border-bottom border-danger">
-    <div class="row test-timer border-bottom border-dark pb-4 ps-4 pe-4 pt-4 bg-danger">
+<section class="test text-dark border-bottom border-info">
+    <div class="row test-timer border-bottom border-primary pb-4 ps-4 pe-4 pt-4 bg-primary">
       <div class="col-lg-2 col-md-1"></div>
       <div class="col-lg-8 col-md-10">
         <div class="container">
@@ -17,35 +17,41 @@
       <div class="col-lg-2 col-md-1"></div>
     </div>
 
-    <div class="row test-questions">
+    <div class="row test-questions bg-info">
       <div class="col-lg-2"></div>
       <div class="col-lg-8 col-md-10 col-10 p-5">
         <div class="container test-questions-container">
-          <div class="row text-light">
+          <div class="row text-dark">
               
               {% for number, question in Questions %}
               
               <div class="container test-container-for-questions" id="container-question-{{ question.id }}">
-                <h3>{{ number }}. {{ question }}</h3> <br>
+                <h2>{{ number }}. {{ question }}</h2> <br>
                 
                 {% for option in question.options.all %}
                   {% if option.question.participant_is_correct and option.str_option == option.question.what_participant_answer %} 
                   <!-- CORRECT CHOICE RADIO -->
-                  <div class="form-check mt-2 ms-4 mb-3 bg-success container rounded-pill">
+                  <div class="form-check mt-2 ms-4 mb-3 bg-success container rounded-pill text-light">
                       <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input answers-radio-correct" disabled checked style="margin-left: 1px;">
-                      <label for="{{ option.id }}" class="form-check-label ms-2">{{ option.option }}</label>
+                      <label for="{{ option.id }}" class="form-check-label ms-2">
+                        <h5>{{ option.option }}</h5>
+                      </label>
                   </div>
                   {% elif option.str_option == option.question.what_participant_answer %} 
                   <!-- INCORRECT CHOICE RADIO -->
-                  <div class="form-check mt-2 ms-4 mb-3 bg-danger container rounded-pill">
+                  <div class="form-check mt-2 ms-4 mb-3 bg-danger container rounded-pill text-custom-121212">
                       <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input answers-radio-incorrect" disabled checked style="margin-left: 1px;">
-                      <label for="{{ option.id }}" class="form-check-label ms-2">{{ option.option }}</label>
+                      <label for="{{ option.id }}" class="form-check-label ms-2">
+                        <h5>{{ option.option }}</h5>
+                      </label>
                   </div>
                   {% else %} 
                   <!-- NOT CHOSEN RADIO -->
-                  <div class="form-check mt-2 ms-4 mb-3">
+                  <div class="form-check mt-2 ms-4 mb-3 text-custom-121212">
                       <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input" disabled style="margin-left: 1px;">
-                      <label for="{{ option.id }}" class="form-check-label ms-2">{{ option.option }}</label>
+                      <label for="{{ option.id }}" class="form-check-label ms-2">
+                        <h5>{{ option.option }}</h5>
+                      </label>
                   </div>
                   {% endif %}
                 
@@ -59,7 +65,7 @@
         </div>
       </div>
 
-      <div class="col-lg-2 col-md-2 col-2 border-start border-danger">
+      <div class="col-lg-2 col-md-2 col-2 border-start border-primary">
         <div class="container test-questions-navigation">
           <div class="row mt-3">
             {% for number, id in Questions_Length.items %}

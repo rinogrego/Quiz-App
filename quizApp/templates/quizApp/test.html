@@ -3,8 +3,8 @@
 
 {% block body %}
 
-<section class="test text-dark border-bottom border-danger">
-    <div class="row test-timer border-bottom border-dark pb-4 ps-4 pe-4 pt-4 bg-danger">
+<section class="test text-custom-121212 border-bottom border-primary">
+    <div class="row test-timer border-bottom border-info pb-4 ps-4 pe-4 pt-4 bg-primary">
       <div class="col-lg-2 col-md-1"></div>
       <div class="col-lg-8 col-md-10">
         <div class="container">
@@ -16,21 +16,23 @@
       <div class="col-lg-2 col-md-1"></div>
     </div>
 
-    <div class="row test-questions">
+    <div class="row test-questions bg-info">
       <div class="col-lg-2"></div>
       <div class="col-lg-8 col-md-10 col-10 p-5">
         <div class="container test-questions-container">
           <div class="row">
 
-            <form action="{% url 'answer' Quiz.id Quiz.slug Participant.id %}" id="test-form" class="text-light" method="POST" onsubmit="window.localStorage.removeItem('countDownValue'); localStorage.removeItem('countDownValue');">
+            <form action="{% url 'answer' Quiz.id Quiz.slug Participant.id %}" id="test-form" class="text-custom-121212" method="POST" onsubmit="window.localStorage.removeItem('countDownValue'); localStorage.removeItem('countDownValue');">
               {% csrf_token %}
               
-              {% for question in Questions %}
+              {% for number, question in Questions %}
               <div class="container test-container-for-questions" id="container-question-{{ question.id }}">
-                <h3>{{ question }}</h3> <br>
+                <h2>{{ number }}. {{ question }}</h2> <br>
                 {% for option in question.options.all %}
                 <div class="form-check mt-2 ms-4 mb-3">
-                  <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input test-all-input" value="{{ option.option }}"><label for="{{ option.id }}" class="form-check-label">{{ option.option }}</label>
+                  <input type="radio" name="{{ question.id }}" id="{{ option.id }}" class="form-check-input test-all-input" value="{{ option.option }}"><label for="{{ option.id }}" class="form-check-label">
+                    <h5>{{ option.option }}</h5>
+                  </label>
                 </div>
                 {% endfor %}
                 <br>
@@ -39,14 +41,14 @@
               {% endfor %}
 
               <div class="d-flex justify-content-end">
-                <a class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#finish_modal">Finish</a>
+                <a class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#finish_modal">Finish</a>
                 <!-- <input type="submit" value="Finish Now" class="btn btn-danger btn-lg"> -->
               </div>
 
               <!-- FINISH MODAL -->
               <div class="modal fade" id="finish_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                  <div class="modal-content bg-dark text-light">
+                  <div class="modal-content bg-light text-dark">
                     <div class="modal-header">
                       <h3 class="modal-title" id="exampleModalLabel">FINISH</h3>
                       <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -56,7 +58,7 @@
                       <p>Make sure to check that there is no unanswered questions.</p>
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" value="Finish Now" class="btn btn-danger">
+                      <input type="submit" value="Finish Now" class="btn btn-primary">
                     </div>
                   </div>
                 </div>
@@ -68,7 +70,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-2 col-md-2 col-2 border-start border-danger">
+      <div class="col-lg-2 col-md-2 col-2 border-start border-primary">
         <div class="container test-questions-navigation">
           <div class="row mt-3">
             {% for number, id in Questions_Length.items %}
@@ -99,7 +101,7 @@
 
 
 {% block script %}
-  <script src="{% static 'quizApp/test.js' %}"></script>
+  <script src="{% static 'quizApp/test1.js' %}"></script>
   <script type="text/JavaScript">
 
     // ============== NOT NEEDED IN THE END (django date to javascript date converter)

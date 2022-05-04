@@ -16,9 +16,10 @@
             <div class="col-lg-2 col-md-2 col-sm-2"></div>
             <div class="col-lg-8 col-md-8 col-sm-8">
               <form>
+                {% csrf_token %}
                 <div class="input-group mb-4 mt-2 w-100">
-                  <input type="search" class="form-control form-control-sm" placeholder="Search Topic" aria-label="Search Topic" aria-describedby="button-addon2">
-                  <button class="btn btn-info btn-danger text-dark border border-danger" type="submit">
+                  <input type="search" class="form-control form-control-sm" placeholder="Search Topic" aria-label="Search Topic" aria-describedby="button-addon2" name="study-search">
+                  <button class="btn btn-info text-dark border border-info" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                     </svg>
@@ -44,13 +45,19 @@
           <div class="row">
 
             {% for topic in Topics %}
-            <div class="col-lg-4 col-md-4 col-sm-6 p-2 mt-2">
-              <div class="card study-topic-card">
-                <div class="text-danger h-100">
-                  <h2 class="study-topic-title d-flex justify-content-center align-items-center p-3">{{ topic.title }}</h2>
+            <div class="col-lg-4 col-md-4 col-6 mt-3">
+              <div class="card topic-card h-100 bg-primary text-light">
+                <div class="card-body">
+                  <h3 class="card-title">{{ topic.title }}</h3>
                 </div>
-                <div class="row study-view-topic-btn">
-                  <a href="{% url 'topic' topic.id topic.slug %}" class="btn btn-sm btn-danger">View Topic</a>
+                <div class="container">
+                  <a class="card-text index-card-text text-light"><strong>{{ topic.quizzes.count }} Quizzes</strong></a> <br>
+                  <p class="card-text index-card-text"><strong>{{ topic.participant }} Participants</strong></p> <br>
+                </div>
+                <div class="container mb-3 w-75">
+                  <div class="row justify-content-center">
+                    <a href="{% url 'topic' topic.id topic.slug %}" class="btn btn-sm btn-warning align-items-end">View Topic</a>
+                  </div>
                 </div>
               </div>
             </div>

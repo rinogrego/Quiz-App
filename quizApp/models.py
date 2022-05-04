@@ -99,7 +99,20 @@ class Topic(models.Model):
     return [contributor.username for contributor in contributors]
 
   def participant(self):
-    return Participant.objects.filter(quiz__in=Quiz.objects.filter(topic=self)).count()
+    # return Participant.objects.filter(quiz__in=Quiz.objects.filter(topic=self)).count()
+    participants = Participant.objects.filter(quiz__in=Quiz.objects.filter(topic=self)).all()
+    # output: participants is still a list where each element's user isn't unique with each other
+    # in other words, a user that has attempted a same quiz x times will be counted as x participant even though the user/participant is just one.
+    unique_participants = []
+    try:
+      for participant in participants:
+        if participant.user.id not in [participant.user.id for participant in unique_participants]:
+          unique_participants.append(participant)
+    except:
+      pass
+
+    return len(unique_participants)
+
     
   def __str__(self):
     return self.title
