@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = 'qvh626q(ftp)nwiqw^kekr!3%_51%hfpqa$1w%kuncchc3s^$(' # already changed
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'kuis-app.herokuapp.com']
 
