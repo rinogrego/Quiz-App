@@ -444,7 +444,7 @@ def make_quiz(request, username):
       a = Answer(question=q, answer=answer)
       a.save()
       
-      return HttpResponseRedirect(reverse('topic', args=[topic.id, topic.slug]))
+    return HttpResponseRedirect(reverse('topic', args=[topic.id, topic.slug]))
 
   return render(request, "quizApp/make_quiz.html", {
     "Topics": topics,
