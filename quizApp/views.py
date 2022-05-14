@@ -210,7 +210,6 @@ def topic(request, topic_id, topic_slug):
       if search.lower() in query_obj.title.lower():
         search_result.append((query_obj, status))
     q = search_result
-    print(q)
 
   return render(request, "quizApp/topic.html", {
     "Topic": Topic.objects.get(id=topic_id),
